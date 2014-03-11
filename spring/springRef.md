@@ -85,6 +85,61 @@ Controller 는 처리의 시작점이라고 생각해도 된다. dispatcher 는 
 
 그리고 가능하면 비지니스빈 과 웹관련빈은 별도의 관리를 하도록 작성해야 한다.(component-scan 시에도 서로를 배제한 스캔을 해도록)
 
+## 빈 분리 
+바로 위에서 말한 비지니스 빈과 웹관련 빈의 구분인데 web.xml 에 2가지 xml 설정을 기술한다고 치자.
+
+### 1. 뒷단의 비지니스 부분 (CLL)
+
+스프링으로 만든 WAS(Web Application Server) 가 기동될때 당연히 읽어뎔여지는 설정들이 있다. ContextLoaderListener 는 서블릿의 ServletContextListener 를 확장한것으로 웹어플리켕션이 서블릿 컨테이너에 로딩될대 실행되는 리스너이다.
+
+아래가 그 설정이다.
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext*.xml</param-value>
+	</context-param>
+
+내용을 보면 스프링 설정파일을 지정했다. ContextLoadListener 가 하는 일은 웹 어플리케이션이 로딩될 때 WAC 를 만드는것이다. 이렇게 생성된 WAC 는 contextConfigLocation에 설정한 xml 빈 설정파일을 사용하여 WA에서 사용할 객체를 관리해준다.
+
+
+### 2. 앞단의 컨트롤러 부분? (DS) 
+CLL 가 아닌 DS 를 살펴보자면..
+
+	<servlet>
+		<servlet-name>spring30</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+		</init-param>
+	</servlet>   
+
+	<servlet-mapping>
+		<servlet-name>spring30</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+	</servlet-mapping>
+
+DispatcherServlet 을 설정하고 url 맵핑했다. DispatcherServlet 은 Servlet 을 확장한 클래스이다(url 맵핑기능. 일종의 대문역할).
+
+
+
+
+우리가 지금 만드는건 WAC(Web Application Context) 
+
+CLL(ContextLoaderListener)
+DS(DispatcherServlet)
+
+
+
+	
+	
+	
+	
+	
 
 
 ### web/WEB-INF 
