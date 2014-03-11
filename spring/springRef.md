@@ -216,78 +216,71 @@ Factory 에 의해서도 줄일수 있지만 결국 팩토리의 의존관계가
 인터페이스의 메소드 호출!   이런식은 어떠한 의존관계도 성립되지 않는다.
 
 
-#### 다른분의 정리글
-영어가 편한 사람이라면 아주아주 유명한 [마틴파울러라는 사람이 쓴 글](http://www.martinfowler.com/articles/injection.html)을 참고하자.
+#### [다른분의 정리글]( http://lostsin.tistory.com/209)
+
+>영어가 편한 사람이라면 아주아주 유명한 [마틴파울러라는 사람이 쓴 글](http://www.martinfowler.com/articles/injection.html)을 참고하자.
 
 
-벗뜨. 영어가 그닥 편하지 않다면 잘 정리한 국내 글을 읽어보자.
+>벗뜨. 영어가 그닥 편하지 않다면 잘 정리한 국내 글을 읽어보자.
 
-IoC 컨테이너와 의존성 삽입 패턴
+>IoC 컨테이너와 의존성 삽입 패턴
 http://wiki.javajigi.net/pages/viewpage.action?pageId=68
 
-Spring Core API 및 IoC-DI
+>Spring Core API 및 IoC-DI
 http://wiki.javajigi.net/pages/viewpage.action?pageId=281
 
-자 읽었으면 정리해보자.
+>자 읽었으면 정리해보자.
 
 
-1. IOC란 Inversion of Control 로 주로 IOC라고만 하지 않고
+>1. IOC란 Inversion of Control 로 주로 IOC라고만 하지 않고
 컨테이너를 붙어 Inversion of Control Containers 라고 보통 쓴다.
 IOC 컨테이너란 IOC를 구현하는 프레임워크를 뜻한다.
 
-2. IOC를 우리말로 번역하면 '제어 역행화'라고 한다.
+>2. IOC를 우리말로 번역하면 '제어 역행화'라고 한다.
 제어의 흐름이 반대로 흐른다는 것이다.
 즉, 구현 객체에 대한 정보가 프레임워크에서 관리되는 것.
 
-3. 마틴 파울러는 IOC보다는 DI라는 개념을 사용하길 권장한다.
+>3. 마틴 파울러는 IOC보다는 DI라는 개념을 사용하길 권장한다.
 DI는 Dependency Injection라고 '의존성 주입'이라고 한다.
 
-4. 예제
-
+>4. 예제
+>
 		public class MovieLister{
 			public void list() {
 				MovieFinder finder = new SFMovieFinderImpl();
 			}
 		}
+>
+>		이런 클래스가 있다고 했을 때 ( MovieFinder 는 인터페이스 ) `new SFMovieFinderImpl();` 부분을 변경하여 다른 곳에 떠 넘긴다.
 
-	이런 클래스가 있다고 했을 때 ( MovieFinder 는 인터페이스 ) `new SFMovieFinderImpl();` 부분을 변경하여
-다른 곳에 떠 넘긴다.
+>	
+		public class MovieLister{	
+		    public void list() {
+		        MovieFinder finder = Assember.getBean("movieFinder");
+		    }
+		}
 
-	public class MovieLister{
-	
-	    public void list() {
-	        MovieFinder finder = Assember.getBean("movieFinder");
-	    }
-	}
-요렇게 하고.. getBean을 사용하기 위해 bean설정을 한다.
+>		요렇게 하고.. getBean을 사용하기 위해 bean설정을 한다.
+>5. 왜 그렇게 해야했나? 
 
-5. 왜 그렇게 해야했나?
-	그냥 딱 저걸로만 개발하고 아무일도 없으면 그냥 저냥 쓰는데 별 무리가 없다.
-그러나 SF영화를 찾는게 아니라. 액션 영화를 찾는다면!?!
-처음 클래스였다면..
-MovieFinder finder = new ActionMovieFinderImpl(); 로 고쳐야 했었을 것이지만..
+>		그냥 딱 저걸로만 개발하고 아무일도 없으면 그냥 저냥 쓰는데 별 무리가 없다. 그러나 SF영화를 찾는게 아니라. 액션 영화를 찾는다면!?! 처음 클래스였다면.. 
 
-	두번째 처럼 수정했다면
-MovieFinder 를 구현한 SFMovieFinderImpl 였기에 ActionMovieFinderImpl를 구현하면 된다.
-그리고 bean 설정을 변경하면 xml설정의 변경만으로 소스 수정없이 편리하게 쓸 수 있다.
+>		`MovieFinder finder = new ActionMovieFinderImpl();` 
 
-	간단히 이렇게 이해하고..
-다른 예로는 MSSQL을 사용하는 DAOImpl와 Oracle을 사용하는 DAOImpl이 있겠다.
-처음 개발할 때 인터페이스를 정의하고 MSSQL용으로 DAO클래스를 구현한 다음
-필요에 따라 oracle을 사용하는 DAO클래스를 구현하면 되는 것이다.
+>		로 고쳐야 했었을 것이지만.. 	두번째 처럼 수정했다면 MovieFinder 를 구현한 SFMovieFinderImpl 였기에 ActionMovieFinderImpl를 구현하면 된다. 그리고 bean 설정을 변경하면 xml설정의 변경만으로 소스 수정없이 편리하게 쓸 수 있다. 
 
-
+>		간단히 이렇게 이해하고.. 다른 예로는 MSSQL을 사용하는 DAOImpl와 Oracle을 사용하는 DAOImpl이 있겠다. 처음 개발할 때 인터페이스를 정의하고 MSSQL용으로 DAO클래스를 구현한 다음 필요에 따라 oracle을 사용하는 DAO클래스를 구현하면 되는 것이다.
+>
 6. 이런 방법은 인터페이스를 이용하는 방법 외에 2가지 더 존재한다.
-
+>
 	- 유형 1. 생성자를 이용한 의존성 삽입 (Constructor Injection : type 1 IoC)
 	- 유형 2. Setter() 메소드를 이용한 의존성 삽입 (Setter Injection : type 2 IoC)
 	- 유형 3. 초기화 인터페이스를 이용한 의존성 삽입 (Interface Injection : type 3 IoC)
-
+>
 덧.
 DI를 사용했을 때 또 좋은 점은 단위 테스트 할 때 용이하다.
 가짜 객체를 사용하여 직접 DB를 사용하지 않고도 테스트를 해볼 수 있다.
-
-
+>
 후기:
 오랜만에 spring의 기초부터 처음 정리해보았다.
 
