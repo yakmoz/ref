@@ -231,18 +231,15 @@ http://wiki.javajigi.net/pages/viewpage.action?pageId=281
 자 읽었으면 정리해보자.
 
 
-1. 
-IOC란 Inversion of Control 로 주로 IOC라고만 하지 않고
+1. IOC란 Inversion of Control 로 주로 IOC라고만 하지 않고
 컨테이너를 붙어 Inversion of Control Containers 라고 보통 쓴다.
 IOC 컨테이너란 IOC를 구현하는 프레임워크를 뜻한다.
 
-2.
-IOC를 우리말로 번역하면 '제어 역행화'라고 한다.
+2. IOC를 우리말로 번역하면 '제어 역행화'라고 한다.
 제어의 흐름이 반대로 흐른다는 것이다.
 즉, 구현 객체에 대한 정보가 프레임워크에서 관리되는 것.
 
-3. 
-마틴 파울러는 IOC보다는 DI라는 개념을 사용하길 권장한다.
+3. 마틴 파울러는 IOC보다는 DI라는 개념을 사용하길 권장한다.
 DI는 Dependency Injection라고 '의존성 주입'이라고 한다.
 
 4. 예제
