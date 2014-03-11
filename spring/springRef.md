@@ -150,6 +150,8 @@ DispatcherServlet 을 설정하고 url 맵핑했다. DispatcherServlet 은 Servl
 
 
 ### CLL 과 DS 의 설정
+#### - CLL
+
 CLL은 비지니스 관련 빈들을 관리하게 될 것이다. applicationContext.xml 파일의 내용을 보면...
 
 	<context:property-placeholder location="classpath*:*.properties" />
@@ -163,6 +165,20 @@ component autoscan 의 내용중 exclude 로 된것을 볼 수 있다. MVC 의 @
 해당 어노테이션은 빼고 빈등록(Component, Service, Repository)을 하게 될 것이다.
 
 
+#### - DS
+	DS 에서 WAC 만들때 사용할 xml 파일... (web.xml 에 webmvc-config.xml 라고 정의했었음)
+
+	<context:component-scan base-package="sample" use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+	</context:component-scan>
+	
+	<mvc:annotation-driven/>
+	
+우선 component-scan 은 똑같이 존재하나 그 대상이 다르다. 여기서는 exclude 가 아니라 include 로 특정대상만 검색하고자 한다. 앞에서 exclude 했던 @Controller 만 빈등록 대상으로 했다. 왜? 여기는 웹용이니까!
+
+그 아래 mvc 태그로 된 부분은 스프링 MVC 사용할때 기본적으로 필요한 빈을 등록해주는 설정이다. 중요한 설정이지.
+
+그리고 해당파일에는 뷰설정이 들어가는데 여기서는 ContentNegotiating view resolver 설정이 있다. 자기자신도 ViewResolver 이지만 다른 ViewResolver 도 사용한다. 
 
 
 
