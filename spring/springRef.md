@@ -103,7 +103,7 @@ Controller 는 처리의 시작점이라고 생각해도 된다. dispatcher 는 
 		<param-value>classpath:applicationContext*.xml</param-value>
 	</context-param>
 
-내용을 보면 스프링 설정파일을 지정했다. ContextLoadListener 가 하는 일은 웹 어플리케이션이 로딩될 때 WAC 를 만드는것이다. 이렇게 생성된 WAC 는 contextConfigLocation에 설정한 xml 빈 설정파일을 사용하여 WA에서 사용할 객체를 관리해준다.
+내용을 보면 스프링 설정파일을 지정했다. ContextLoadListener 가 하는 일은 웹 어플리케이션이 로딩될 때 WAC 를 만드는것이다. 이렇게 생성된 WAC 는 contextConfigLocation에 설정한 xml 빈 설정파일을 사용하여 WA에서 사용할 객체를 관리해준다. 위의 설정파일은 `src/applicationContext*.xml` 이 된다.
 
 
 ### 2. 앞단의 컨트롤러 부분? (DS) 
@@ -124,16 +124,60 @@ CLL 가 아닌 DS 를 살펴보자면..
 	</servlet-mapping>
 
 DispatcherServlet 을 설정하고 url 맵핑했다. DispatcherServlet 은 Servlet 을 확장한 클래스이다(url 맵핑기능. 일종의 대문역할).
+앞에서 봤듯이 /app 으로 오는 모든 처리를 해당 spring30 서블릿이 처리한다. 그 처리할 빈은 어디에있느냐? webmvc-config.xml 로 지정해놓은걸 볼 수 있다. 
+
+1,2 는 WAC 를 만드는 방법이 다르다고 한다. DS 의 경우는..
+
+1. CLL 에서 만든 WAC 가 있다면 그것을 상속받는 WAC 를 만든다. 
+2. CLL 은 어플리케이션당 WAC 한개, DS 는 서블릿 설정당 WAC 한개씩 만든다. 
+
+즉 CLL 은 전체에서 사용할 WAC 를 만들고 DS 는 해당 서블릿에서만 사용할 WAC 를 만든다.
+
+이런식으로 상속구조를 가진다.
+
+중요한 특징
+
+- 자식 WAC 에서 부모 WAC 의 빈을 참조할 수 있다.
+- 부모 WAC 에서는 자식 WAC 의 빈을 참조할 수 없다.
+- 자식 WAC 에서 어떤 빈을 참조시 우선 자신 내부를 참조한다. 없으면 부모쪽 빈을 참조하는데 그래도 없으면 예외가 발생한다.
+
+보통은 나누는 방법이
+
+- WAC(CLL) : 웹에 종속적이지 않은 빈 (비지니스 관련..)
+	Service,Repository, Component ... 
+- WAC(DS) : 웹에 종속적인 빈(컨트롤러,MVC 관련 빈)
+	Controller 
+
+
+### CLL 과 DS 의 설정
+CLL은 비지니스 관련 빈들을 관리하게 될 것이다. applicationContext.xml 파일의 내용을 보면...
+
+	<context:property-placeholder location="classpath*:*.properties" />
+
+	<context:component-scan base-package="sample">
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+component autoscan 의 내용중 exclude 로 된것을 볼 수 있다. MVC 의 @Controller 를 배제한것이다.
+해당 어노테이션은 빼고 빈등록(Component, Service, Repository)을 하게 될 것이다.
 
 
 
 
-우리가 지금 만드는건 WAC(Web Application Context) 
 
-CLL(ContextLoaderListener)
-DS(DispatcherServlet)
+## ApplicationContext
+Spring 에서는 IoC 컨테이너 혹은 Spring 컨테이너 라고도 부른다? 또는 BeanFactory(AC 는 BeanFactory의 완벽한 superset)
 
+아래는 백기선님의 [Spring MVC에서 사용하는 ApplicationContext와 WebApplicationContext](http://whiteship.tistory.com/category/Spring%20MVC) 설명 글이다. 
 
+>보통 스프링 설정 파일이 최소한 두 개이상 있을 겁니다. xxx-servlet.xml 과 나머지로 나눌 수 있습니다. 그중에서 xxx-servlet.xml은 DispatcherServlet이 WebApplicationContext를 만들 때 사용하고, 나머지는  ContextLoaderListener 또는 ContextLoaderServlet이 일반적인 ApplicationContext를 만들 때 사용합니다.
+
+> 이게 끝이 아닙니다. WebApplicationContext는 바로 이 ApplicationContext를 상속받아서 여러 서블릿들이 공통으로 사용하는 빈들을 사용할 수 있게 되는 겁니다. 따라서 만들어지는 순서도 중요한데, Listener가 아니라 ContextLoaderServlet을 사용했을 때는 load 머시기 설정 값에 1을 줘서 DispatcherServlet보다 먼저 만들게 해야 합니다. 그래서 WebApplicationContext를 만들 때 해당 ApplicationContext를 상속받아서 그 안에 있는 빈들을 사용할 수 있게 되겠죠.
+
+> 이런 구조로 설계한 건, DispatcherServlet이 하나의 웹 애플리케이션에서 여러 개일 수 있기 때문입니다. 여러 개의 DispatcherServlet에서 공통으로 사용할 빈들을 상위에 있는 ApplicationContext에 선언해두고 공유할 수 있게 하는 거죠.
+
+그냥 간단히 빈을 가져오게 해주는 역할이라고 볼까? (돌려주는) 
 
 	
 	
