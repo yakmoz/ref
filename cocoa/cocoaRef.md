@@ -153,6 +153,10 @@ NSString 의 initWithFormat 이 바로 그것이다.
 	
 속성에는 여러가지 값이 있으니 찾아보기바란다. 필요 없으면 생략 가능하다.
 
+### setter/getter
+objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 getXxx는 하지 않는다. 그냥 xxx 로 getter 이름을 정의한다. 사실 이렇게 하지 않으면 안되는게 **키-밸류** 코딩에서는 setXxx, xxx 를 setter/getter 로 자동처리하므로 그렇게 지켜서 메소드 정의를 해야한다!!!!
+
+
 ### Accessor method 접근자 메소드 (액세서 메소드)
 프로퍼티값을 참조 및 설정하려면 `액세서메소드` 가 필요하다. 직접 코딩할 수 있지만 `@synthesize` 를 implementation 에 추가하여 자동생성 가능하다.
 
@@ -165,7 +169,7 @@ NSString 의 initWithFormat 이 바로 그것이다.
 
 **주의할점은 id 형의 경우는 `.` 참조가 안됨.**
 
-### 그럼.. 즉 property(.h) 와 synthesize(.m) 는 한상 처럼 움직일 수 있다?
+### 그럼.. 즉 property(.h) 와 synthesize(.m) 는 한쌍 처럼 움직일 수 있다?
 분위기가 그러한데? property 로 참조 및 대입하기 위한 메소드를 .h에 선언하고 그걸 자동화하는 synthesize 를 .m 에 선언한다.
 
 
@@ -371,6 +375,21 @@ objective-c version
 
 이렇게 선언된것을 구현할때 `@required` 로 마킹된것은 구현해야한다. (아니면 경고 나옴 )
 
+## 바인딩(Binding)
+많은 그래픽 오브젝트는 바인딩되어있다. 특정키에 바인드를 하면 그래픽 오브젝트의 속성 즉, 그 값이나 폰트색상,뷰 등이 자동적으로 동기화 될 것이다. 
+  
+바인딩을 쓸 경우 프로토콜을 구현하지 않아도 될때가 있다. 
+
+## Notification 노티피케이션 
+자.. 슬라이더와 변수를 옵저빙해놓으면 슬라이더의 변화에 따라 변수의 표시값도 잘 변한다.
+허나 버튼에 값변화 바인딩을 해놓으면 버튼을 클릭한다고 해서 변수의 화면 표시값은 변하지 않는다.
+이를때 직접변경하기 위해서는 노티피케이션(notification) 을 직접 발생시켜야 한다.
+시작과 끝 두번호출하면되며,
+
+	[self willChangeValueForKey:@"fido"];	// noti start
+	fido++;
+	NSLog(@"fido is now %d", fido);
+	[self didChangeValueForKey:@"fido");	// noti end
 
 
 #메모리
