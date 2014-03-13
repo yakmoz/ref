@@ -328,31 +328,6 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 은... 닥치고 단어상의 의미처럼 대리함을 의미한다. 즉 어떤 행위에 추가적 처리를 하고 싶을때 해당 클래스에 delegate 프로토콜 선언 해주면 컴파일러가 이걸 보고 추가 실행에 대한.. 걸 알게 되는???
 
 
-
-# 언어비교
-###  자바와 objective-c 비교
-java 버전
-
-	import com.megacorp.Bar;
-	import com.megacorp.Baz;
-	
-	public class Rex extends Bar implements Baz { 
-	//... 메서드와인스턴스변수들..
-	}
-
-objective-c version
-
-	public void increment(Object sender) 
-	{ 
-		count++;
-		textField.setlntValue(count);
-	}
-### 자바와 마찬가지로 == , isEqual 은 다르더라
-`==` 는 포인터의 비교가 되는거고(객체), `isEqual` 은 그 값의 비교가 되더라.
-
-
-### 오브젝티브-C 에서는 반드시 객체는 포인터를 통해서 다뤄야 한다.
-
 ## 프로토콜(protocol)
 클래스에 메소드나 프로퍼티의 처리를 강제하는 장치?. 말이 좀 애매한데 간단히 말해서 프로토콜이란건 여러행위를 묶어놓은거라고 보면된다. 해서 인터페이스의 일부를 잘라내어 모아놓은 목록이라고 표현하더라.
 
@@ -390,6 +365,31 @@ objective-c version
 	fido++;
 	NSLog(@"fido is now %d", fido);
 	[self didChangeValueForKey:@"fido");	// noti end
+
+
+# 언어비교
+###  자바와 objective-c 비교
+java 버전
+
+	import com.megacorp.Bar;
+	import com.megacorp.Baz;
+	
+	public class Rex extends Bar implements Baz { 
+	//... 메서드와인스턴스변수들..
+	}
+
+objective-c version
+
+	public void increment(Object sender) 
+	{ 
+		count++;
+		textField.setlntValue(count);
+	}
+### 자바와 마찬가지로 == , isEqual 은 다르더라
+`==` 는 포인터의 비교가 되는거고(객체), `isEqual` 은 그 값의 비교가 되더라.
+
+
+### 오브젝티브-C 에서는 반드시 객체는 포인터를 통해서 다뤄야 한다.
 
 
 #메모리
