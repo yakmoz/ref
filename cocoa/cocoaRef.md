@@ -143,6 +143,12 @@ NSString 의 initWithFormat 이 바로 그것이다.
 	self = [super init]; // 지정생성자 안에서 기본생성자를 호출해야 한다. 
 	if(self) {....}		// 그리고 이 짓을 보통 하더라. 제대로 초기화 됐는지 확인한다.
 
+
+### setter/getter
+objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 getXxx는 하지 않는다. 그냥 xxx 로 getter 이름을 정의한다. 사실 이렇게 하지 않으면 안되는게 **키-밸류** 코딩에서는 setXxx, xxx 를 setter/getter 로 자동처리하므로 그렇게 지켜서 메소드 정의를 해야한다!!!!
+
+**참고로 이 작업을 property 와 synthesize 를 이용해 자동처리할 수 있다!!**
+
 ### property ?
 오브젝트 안의 데이터를 참조 및 대입하기 위한 메소드이다. 인터페이서에 선언한다.
 
@@ -152,9 +158,6 @@ NSString 의 initWithFormat 이 바로 그것이다.
 	@property (readwrite) int num;
 	
 속성에는 여러가지 값이 있으니 찾아보기바란다. 필요 없으면 생략 가능하다.
-
-### setter/getter
-objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 getXxx는 하지 않는다. 그냥 xxx 로 getter 이름을 정의한다. 사실 이렇게 하지 않으면 안되는게 **키-밸류** 코딩에서는 setXxx, xxx 를 setter/getter 로 자동처리하므로 그렇게 지켜서 메소드 정의를 해야한다!!!!
 
 
 ### Accessor method 접근자 메소드 (액세서 메소드)
