@@ -2,7 +2,7 @@
 
 # 타입
 
-### IBOutlet 은 아무것도 하지 않는 매크로다
+### IBOutlet 은 아무것도 하지 않는 marker??
 UI 를 그린뒤 h 에 넣을때 Outlet 으로 넣으면 이 값으로 설정된다. (void 와 같은 의미?) 
 이 Connection 은 action 이 아닌 UI 객체에 접근하기 위해 정의한다라고 생각해도 된다. 이 값으로 이 UI 를 가르키는 포인터가 필요한데 이 과정으로 프로퍼티가 생성됨. 여기서 name 을 정하는데 컴파일러는 `_이름` 으로 변수를 자동으로 만든다. 이건 @synthesize 를 통해서 Accessor Method 로 인해 가능해지는것 같은데 말야.
 
@@ -375,6 +375,15 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 	fido++;
 	NSLog(@"fido is now %d", fido);
 	[self didChangeValueForKey:@"fido");	// noti end
+
+
+## 키-밸류
+간단히 맵처럼 변수값을 변수의 이름을 이용해 읽고 변경하는 방법.
+키에 값이 매핑되어있는 케이스. 근데 여기서는 보통 값을 먼저 말하고 forKey 형태로 키를 대입하더라.
+
+
+## 키-밸류 옵저빙 (key value observing)
+변수의 값이 바뀌었을 때를 이것을 알리는 것.
 
 
 # 언어비교
