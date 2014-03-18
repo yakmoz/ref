@@ -385,6 +385,11 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 	NSLog(@"fido is now %d", fido);
 	[self didChangeValueForKey:@"fido");	// noti end
 
+실행중인 어플리케이션에는 모두 NSNotificationCenter 의 인스턴스가 있단다.
+특정 내용에(notification) 관심이 있다고 등록함 등록객체를 옵저버라고 함. 다른 객체들이 노티피케이션 센터에 노티페케이션을 알림. 그러면 관심있다고 등록한 객체에 해당 내용을 전달함.(계속)
+
+
+
 
 ## 키-밸류
 간단히 맵처럼 변수값을 변수의 이름을 이용해 읽고 변경하는 방법.
@@ -408,7 +413,7 @@ setValue: forKey: 와 valueForKey: 는 NSObject 에 정의되어있다. 즉 ... 
 
 
 ## 키-밸류 옵저빙 (key value observing)
-변수의 값이 바뀌었을 때를 이것을 알리는 것.
+변수의 값이 바뀌었을 때를 이것을 알리는 것. 사실 특별한 api 등이 존재하는건 아니고 설정을 통해서 (즉 액션후 호출등에 의한) 값이 동기화 되는 형태로 보인다.
 
 ### .h 임포트 대신 @class
 소스에 `@class 클래스이름` 으로 적으면 해당 클래스가 있음을 알리는 역할을 한다. 그러면 임포트 없이 선언할 수 있다. import 는 컴파일러가 더 많은 파일을 분석하도록 요청하기 때문에 @class 가 빌드시 속도가 좀 더 빠를 수 있다네?
@@ -417,7 +422,12 @@ setValue: forKey: 와 valueForKey: 는 NSObject 에 정의되어있다. 즉 ... 
 ## NSBundle
 
 
+## NSDictionary , NSMutableDictionary
+뭐 이미 이름에서 풍기겠지만 mutable 은 변경가능하고 그냥 dictionary 는 변경 불가이다.
 
+Dictionary 는 hash테이블로 구현되어있다. 심지어 for-in 은 바로 딕셔너리에서 키를 꺼내서 루프를 돌 수도 있다. 
+
+NSMutableDictionary 에 같은 키로 새로 값을 넣으면 이전 값을 release 해버리고 retain 후 넣는다. 
 
 # 언어비교
 ###  자바와 objective-c 비교
