@@ -390,6 +390,22 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 간단히 맵처럼 변수값을 변수의 이름을 이용해 읽고 변경하는 방법.
 키에 값이 매핑되어있는 케이스. 근데 여기서는 보통 값을 먼저 말하고 forKey 형태로 키를 대입하더라.
 
+	@interface Student NSObject {
+		NSString *firstName;
+	}
+	...
+	@ends
+	
+	// set
+	Student *s = [[Student alloc] init];
+	[s setValue:@"Larry" forKey:@"firstName"];
+	
+	// get
+	NSString *x = [s valueForKey:@"firstName"];
+
+setValue: forKey: 와 valueForKey: 는 NSObject 에 정의되어있다. 즉 ... 모든 객체가 다 가지고 있게 되는건가???
+
+
 
 ## 키-밸류 옵저빙 (key value observing)
 변수의 값이 바뀌었을 때를 이것을 알리는 것.
