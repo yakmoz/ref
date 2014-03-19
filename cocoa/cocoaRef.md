@@ -45,40 +45,45 @@ NSButton, NSSlider, NSTextView, NSColorWell은 NSControl의 서브클래스들�
 ### 버튼의 액션을 실시간으로 바꿀 수 있다?
 가능한것으로 보인다. setAction 이 가능하다. 현재 버튼에 걸린 셀렉터 도 조회가능하다.
 
-	// 지정하는법 
-	SEL mySelector;
-	mySelector = @selector(dra씨Mickey:) ;
-	[myButton setAction:mySelector];
-				
+``` objectivec
+// 지정하는법 
+SEL mySelector;
+mySelector = @selector(drawMickey:) ;
+[myButton setAction:mySelector];
 
-	//교체
-	SEL mySelector;
-	mySelector = NSSelectorFromString(@"drawMickey:");
-	[myButton setTarget:someObjectWithDrawMickeyMethod] ; 
-	[myButton setAction:mySelector];
 
+//교체
+SEL mySelector;
+mySelector = NSSelectorFromString(@"drawMickey:");
+[myButton setTarget:someObjectWithDrawMickeyMethod] ; 
+[myButton setAction:mySelector];
+```
 ### UI 객체를 고를때 ctrl 버튼을 누른채 UI 컴포넌트를 클릭하면 메뉴가 뜬다. 
 여기서 delegate 나 datasource 등을 설정할 수 있다. delegate 후 메소드를 오버라이드 해서 원하는 실행을 만들 수 있...다?
 
 ## 작성순서
-	1. UI 를 그린다.
-	2. UI 에 대한 액션을 만드는 방법으로는 
-		- 오른쪽 아래 콤포넌트 고르른곳에서 파란색 Object 를 골라서 xib 파일을 선택하면 보이는 메인창의 왼쪽 콤포넌트가 있는곳에 두어 ctrl or 왼쪽 마우스 버튼으로 연결하는 방법
-		- 또는 Assistant Ediotr 를 선택해서 바로 소스로(즉 위의 파란색 오브젝트) 연결해주는 방법
-		
-		2가지가 있다. 
-	3. 우선 UI 객체들을 interface 에 넣자.  
+1. UI 를 그린다.
+2. UI 에 대한 액션을 만드는 방법으로는 
+    - 오른쪽 아래 콤포넌트 고르른곳에서 파란색 Object 를 골라서 xib 파일을 선택하면 보이는 메인창의 왼쪽 콤포넌트가 있는곳에 두어 ctrl or 왼쪽 마우스 버튼으로 연결하는 방법
+    - 또는 Assistant Ediotr 를 선택해서 바로 소스로(즉 위의 파란색 오브젝트) 연결해주는 방법
+
+    2가지가 있다. 
+3. 우선 UI 객체들을 interface 에 넣자.  
 
 
 # 문자
 ### 문자열  
 Objective-C는 `@"..."`을 이용해 7비트 ASCII 인코딩에서 문자열 객체를 간편하게 생성할수 있다.
 	
-	NSString *temp = @"this is a constant string";
+```objectivec 
+NSString *temp = @"this is a constant string";
+```
 
 또는 
 
-	NSString *str = [NSString stringWithString:@"문자열"];
+```objectivec
+NSString *str = [NSString stringWithString:@"문자열"];
+```
 
 
 stringWithString 은 벼누에 문자열을 대입시키는 메소드(메소드 호출을 메세지를 보낸다는 표현을 쓰더라...)
@@ -89,15 +94,17 @@ NSString 은 기본적으로 값변경이 안된다. 그러면? 주소변경하�
 
 ### 문자열 에 문자열추가?
 NSString 의 stringByAppendingString 을 이용하면 된다. 
-
-	NSString *s1 = @"ABC";
-	NSString *s2 = [s1 stringByAppendingString:@"DEF"];
+``` objectivec
+NSString *s1 = @"ABC";
+NSString *s2 = [s1 stringByAppendingString:@"DEF"];
+```
 ### 문자열 비교
 isEqualString
-	
-	NSString *s1 = @"ABC";
-	NSString *s2 = @"ABC";
-	BOOL c = [s1 isEqualToString: s2];
+``` objectivec
+NSString *s1 = @"ABC";
+NSString *s2 = @"ABC";
+BOOL c = [s1 isEqualToString: s2];
+```
 
 
 ### 문자열 추출
@@ -107,21 +114,22 @@ subStringWithRange:NSMakeRange(5,4)	?
 
 ### sprintf 가 존재한다.
 NSString 의 initWithFormat 이 바로 그것이다.
+``` objectivec
+//예제 
+NSString* cntStr = [[NSString alloc] initWithFormat:@"%d",cnt];
 
-	//예제 
-	NSString* cntStr = [[NSString alloc] initWithFormat:@"%d",cnt];
-	
-	//위보다는
-	NSString *text = [NSString stringWithFormat:@"'%@' has %d characters.",string,[string length]];
-	
+//위보다는
+NSString *text = [NSString stringWithFormat:@"'%@' has %d characters.",string,[string length]];
+```
 	
 ### 배열?
-	// 사실상 하나짜리 배열
-	NSArry *arr = [NSArray arrayWithObject:@"ABC"];
-	
-	// n 개... 끝을 반드시 nil 로 직접 지정해야하는건가?
-	NSArry *arr = [NSArray arrayWithObject:@"ABC",@"DEF",@"GHI",nil];
-	
+``` objectivec
+// 사실상 하나짜리 배열
+NSArry *arr = [NSArray arrayWithObject:@"ABC"];
+
+// n 개... 끝을 반드시 nil 로 직접 지정해야하는건가?
+NSArry *arr = [NSArray arrayWithObject:@"ABC",@"DEF",@"GHI",nil];
+```
 	
 # 할당, 선언 및 호출
 
@@ -135,19 +143,21 @@ NSString 의 initWithFormat 이 바로 그것이다.
 
 ### 생성과 초기화
 기본적으로 공간을 만들고, 객체를 만든뒤, 초기화해서 쓴다.
+``` objectivec
+NSString *str; // obj-c 에서는 객체는 무조건 포인터 선언
+str = [NSString alloc];	// 객체생성
+str = [str init];		// 초기화 
 
-	NSString *str; // obj-c 에서는 객체는 무조건 포인터 선언
-	str = [NSString alloc];	// 객체생성
-	str = [str init];		// 초기화 
-	
-	// 위의 3가지 과정을 보통 한꺼번에
-	NSString *str2 = [[NSString alloc] init];
+// 위의 3가지 과정을 보통 한꺼번에
+NSString *str2 = [[NSString alloc] init];
+```
 	
 그냥 init 이 아니라 initWith... 등으로 된 것을 지정초기화 라고 하네?
 자바로 치면 기본생성자외의 생성자이다. 
-
-	self = [super init]; // 지정생성자 안에서 기본생성자를 호출해야 한다. 
-	if(self) {....}		// 그리고 이 짓을 보통 하더라. 제대로 초기화 됐는지 확인한다.
+``` objectivec
+self = [super init]; // 지정생성자 안에서 기본생성자를 호출해야 한다. 
+if(self) {....}		// 그리고 이 짓을 보통 하더라. 제대로 초기화 됐는지 확인한다.
+```
 
 
 ### setter/getter
@@ -159,9 +169,10 @@ objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 g
 오브젝트 안의 데이터를 참조 및 대입하기 위한 메소드이다. 인터페이서에 선언한다.
 
 @property (속성) 형 이름;
-
-	ex) 
-	@property (readwrite) int num;
+```objectivec
+ex) 
+@property (readwrite) int num;
+```
 	
 속성에는 여러가지 값이 있으니 찾아보기바란다. 필요 없으면 생략 가능하다.
 
@@ -176,7 +187,9 @@ objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 g
 ### Accessor method 접근자 메소드 (액세서 메소드)
 프로퍼티값을 참조 및 설정하려면 `액세서메소드` 가 필요하다. 직접 코딩할 수 있지만 `@synthesize` 를 implementation 에 추가하여 자동생성 가능하다.
 
-	@synthesize num; // num 의 액세스 메소드가 생성된다. 
+``` objectivec
+@synthesize num; // num 의 액세스 메소드가 생성된다. 
+```
 
 자동이 아니면 속성부분에 getter / setter 로 메소드명 지정이 가능하다만...
 전에 언급했지만 getter 의 경우 실제 이름은 ...getter 로 하지말고 그냥 그 메소드 이름으로 getter 를 만들라. 
@@ -216,20 +229,22 @@ super 는 : 뒤에 옴. 물론 선언에서 얘기다.
  `- (리턴타입)메소드명:파라미터 {...}`  
  
  아래코드는 c++ or java 코드이다.
-	 
-	public void increment(Object sender) 
-	{ 
-	 	count++;
-		textField.setIntValue(count);
-	}
+``` objectivec
+public void increment(Object sender) 
+{ 
+    count++;
+    textField.setIntValue(count);
+}
+```
 		
 이걸 objective-c 로 구현하면?
-
-	- (void)increment:(id)sender 
-	{
-		count++;
-		[textField setIntValue:count];
-	}
+``` objectivec
+- (void)increment:(id)sender 
+{
+    count++;
+    [textField setIntValue:count];
+}
+```
 
 메소드는 모두 공개 메소드이고, 인스턴스 변수는 전부 보호된다.
 인스턴스 변수는 중골호 안에 선언되어 있다. 
@@ -262,9 +277,10 @@ objective-C 로 바꾸면 `[textField setIntValue:count]` 이다.
 
 인수가 여러개 이면, 한칸 띄우고 `라벨명:값` 이런식으로 계속 추가하면된다. 한칸 띄우는거다.
 라벨명은 선언시에 정해진다.
-
-	// test 는 인수값, encoding 은 라벨: 뒤의 값은 인수값
-	NSString *str = [NSString stringWithString:test encoding:NSUTF8StringEncoding];
+``` objectivec
+// test 는 인수값, encoding 은 라벨: 뒤의 값은 인수값
+NSString *str = [NSString stringWithString:test encoding:NSUTF8StringEncoding];
+```
 	
 #### <u>**인수의 수와 메서드명의 ':' 의 수는 같개 된다네.**</u>
 
@@ -275,40 +291,43 @@ objective-C 로 바꾸면 `[textField setIntValue:count]` 이다.
 
 
 ### .h 는 .m 에서 구현하더라
-
-	#import <Foundation/Foundation.h>
-	@interface RandomController : NSObject 
-	{ 
-		// 이 안은 인터페이스 변수부분. 메소드에서 바로 접근 가능 
-		IBOutlet NSTextField *textField; 
-	}
-	-(IBAction)seed:(id)sender;
-	-(IBAction)generate:(id)sender; 
-	@end
+``` objectivec
+#import <Foundation/Foundation.h>
+@interface RandomController : NSObject 
+{ 
+    // 이 안은 인터페이스 변수부분. 메소드에서 바로 접근 가능 
+    IBOutlet NSTextField *textField; 
+}
+-(IBAction)seed:(id)sender;
+-(IBAction)generate:(id)sender; 
+@end
+```
 	
 이와 같이 선언하고  .m 에서
 
-	import “RandomController.h" 
+``` objectivec
+import "RandomController.h" 
 
-	@implementation RandomController
-	
-	- (IBAction)generate: (id)sender 
-	{
-	    //1부터 100 사이의 수 생성
-	    int generated;
-	    generated = (int)(random() % 100) + 1;
-	    
-	    NSLog(@"generated = %d", generated);
-	    // 텍스트 펼드에 현재 출력 중인 것을 바꾸라고 요청
-	    [textField setlntValue:generated];
-	}
-	
-	- (IBAction)seed:(id)sender
-	{
-	    // 시간을 초기값으로 난수 발생 
-	    [textField setStringValue:@"Generator seeded"];
-	}
-	@end
+@implementation RandomController
+
+- (IBAction)generate: (id)sender 
+{
+    //1부터 100 사이의 수 생성
+    int generated;
+    generated = (int)(random() % 100) + 1;
+
+    NSLog(@"generated = %d", generated);
+    // 텍스트 펼드에 현재 출력 중인 것을 바꾸라고 요청
+    [textField setlntValue:generated];
+}
+
+- (IBAction)seed:(id)sender
+{
+    // 시간을 초기값으로 난수 발생 
+    [textField setStringValue:@"Generator seeded"];
+}
+@end
+```
 
 뭐.. 소스내용을 이해하지 못해도 상관없다. interface 를 implementation 하는 형태를 봐둬라. 
 
@@ -348,21 +367,23 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 클래스에 메소드나 프로퍼티의 처리를 강제하는 장치?. 말이 좀 애매한데 간단히 말해서 프로토콜이란건 여러행위를 묶어놓은거라고 보면된다. 해서 **인터페이스의 일부**를 잘라내어 모아놓은 목록이라고 표현하더라.
 
 프로토콜을 정의하려면 @protocol 과 @end 사이에 메소드나 프로퍼티를 기술한다. 인터페이스와 같다.(= 형식프로토콜 이라 함)
-
-	@protocol FruitsInfo
-	@required 		// 이 이후에 있는 메소드등을 처리할 필요가 있음 
-	-(void) showBrand;
-	@optional		// 이 이후의 메소드는 반드시 처리할 대상은 아님 
-	-(void) showCalorie;
-	@end  
+``` objectivec
+@protocol FruitsInfo
+@required 		// 이 이후에 있는 메소드등을 처리할 필요가 있음 
+-(void) showBrand;
+@optional		// 이 이후의 메소드는 반드시 처리할 대상은 아님 
+-(void) showCalorie;
+@end  
+```
 
 프로토콜을 적용하는 방법은 인터페이스 선언부에 `<프로토콜명>` 를 기술하면된다.
-
-	@interface Orange: NSObject <FruitsInfo>
-	{
-	....
-	}
-	@end 
+```objectivec
+@interface Orange: NSObject <FruitsInfo>
+{
+....
+}
+@end 
+```
 
 이렇게 선언된것을 구현할때 `@required` 로 마킹된것은 구현해야한다. (아니면 경고 나옴 )
 
@@ -379,34 +400,54 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 허나 버튼에 값변화 바인딩을 해놓으면 버튼을 클릭한다고 해서 변수의 화면 표시값은 변하지 않는다.
 이를때 직접변경하기 위해서는 노티피케이션(notification) 을 직접 발생시켜야 한다.
 시작과 끝 두번호출하면되며,
-
-	[self willChangeValueForKey:@"fido"];	// noti start
-	fido++;
-	NSLog(@"fido is now %d", fido);
-	[self didChangeValueForKey:@"fido");	// noti end
+``` objectivec
+[self willChangeValueForKey:@"fido"];	// noti start
+fido++;
+NSLog(@"fido is now %d", fido);
+[self didChangeValueForKey:@"fido");	// noti end
+```
 
 실행중인 어플리케이션에는 모두 NSNotificationCenter 의 인스턴스가 있단다.
 특정 내용에(notification) 관심이 있다고 등록함 등록객체를 옵저버라고 함. 다른 객체들이 노티피케이션 센터에 노티페케이션을 알림. 그러면 관심있다고 등록한 객체에 해당 내용을 전달함.(계속)
 
+### NSNotification
+노티피케이션은 옵저버가 필요로 하는 정보를 넣은 봉투와 같다. 노티피케이션에는 두 가지 중요한 인스턴스 변수인 name과 object가 있다. 
 
+### NSNotificationCenter 
+NSNotificationCenter는 명령을 내 리는 두뇌와 같다. NSNotificationCenter는 옵
+저버 객체를 등록하거나 노티피케이션을 알리고 옵저버 등록을 해제하는 일을
+한다.
+``` objectivec
+(void) addObserver: (id)anObserver 
+          selector: (SEL)aSelector
+              name: (NSString *)notificationName 
+            object: (id)anObject
+```
+
+이 메서드는 notificationName이란 이름과 anObejct 객체를 포함한 노티피케이션을 받을 anObserver를 등록한다. anObject 객체를 담은 notificationName이라는 이름의 노티피케이션을 노티피케이션 센터에 알리면 이 노티피케이션을 인수로 하는 aSelector 메시지를 anObserver로 보낸다.
+
+만약 notificationName이 nil이면 노티피케이션 센터는 옵저버에게 anObejct에 해당하는 객체에게 모든 노티피케이션을 보낸다. 
+
+만약 anObject가 nil이변 노티피케이션 센터는 옵저버 에게 notificationName 이란 이름을 지닌 모든 노티피케이션을 보낸다.
 
 
 ## 키-밸류
 간단히 맵처럼 변수값을 변수의 이름을 이용해 읽고 변경하는 방법.
 키에 값이 매핑되어있는 케이스. 근데 여기서는 보통 값을 먼저 말하고 forKey 형태로 키를 대입하더라.
+``` objectivec
+@interface Student NSObject {
+    NSString *firstName;
+}
+...
+@ends
 
-	@interface Student NSObject {
-		NSString *firstName;
-	}
-	...
-	@ends
-	
-	// set
-	Student *s = [[Student alloc] init];
-	[s setValue:@"Larry" forKey:@"firstName"];
-	
-	// get
-	NSString *x = [s valueForKey:@"firstName"];
+// set
+Student *s = [[Student alloc] init];
+[s setValue:@"Larry" forKey:@"firstName"];
+
+// get
+NSString *x = [s valueForKey:@"firstName"];
+```
 
 setValue: forKey: 와 valueForKey: 는 NSObject 에 정의되어있다. 즉 ... 모든 객체가 다 가지고 있게 되는건가???
 
@@ -432,21 +473,23 @@ NSMutableDictionary 에 같은 키로 새로 값을 넣으면 이전 값을 rele
 # 언어비교
 ###  자바와 objective-c 비교
 java 버전
+```java
+import com.megacorp.Bar;
+import com.megacorp.Baz;
 
-	import com.megacorp.Bar;
-	import com.megacorp.Baz;
-	
-	public class Rex extends Bar implements Baz { 
-	//... 메서드와인스턴스변수들..
-	}
+public class Rex extends Bar implements Baz { 
+//... 메서드와인스턴스변수들..
+}
+```
 
 objective-c version
-
-	public void increment(Object sender) 
-	{ 
-		count++;
-		textField.setlntValue(count);
-	}
+``` objectivec
+public void increment(Object sender) 
+{ 
+    count++;
+    textField.setlntValue(count);
+}
+```
 ### 자바와 마찬가지로 == , isEqual 은 다르더라
 `==` 는 포인터의 비교가 되는거고(객체), `isEqual` 은 그 값의 비교가 되더라.
 
@@ -475,11 +518,12 @@ scala 였던가? 참고 카운팅을 기록해두었다가 0이 되면 해제 �
 - ARC : 최상의 방법일 수 있으나 참조 수 순환 문제가 있고, 직접 할당한 메모리는 관리하지 않는다. 
 
 위에서 말한 할당의 2가지 유형
-
-	// auto release 대상이 됨
-	NSString *str2 = [NSString stringWithString: @"string managed by the pool"];
-	// 직접 메모리에 할당해서 만든 함수 
-	NSString *str3 = [[NSString alloc] initWithString: @"self managed string"];
+``` objectivec
+// auto release 대상이 됨
+NSString *str2 = [NSString stringWithString: @"string managed by the pool"];
+// 직접 메모리에 할당해서 만든 함수 
+NSString *str3 = [[NSString alloc] initWithString: @"self managed string"];
+```
 	
 **alloc 으로 직접 할당한 메모리는 역시 직접 해제해야 한다.**
 
@@ -503,33 +547,34 @@ A 는 과연 B 의 객체가 메모리에서 release 되지 않을거라는걸 �
 Accessor Method 라고 부르고... 사실상 자바에서 getter/setter 를 의미한다고 봐도 무방하다. 즉, 객체 내부의 변수에 직접 접근하지 못하므로 이를 통해서 접근하는 것이다. 단! getter 의 경우 getXxx 처럼은 하지 않기를 권하더라. objective-c 계열에서는 그냥 이름으로 적어서 get 을 구현한다. set 에는 set 을 붙이더라. 
 
 만약 set 을 하게 된다면... 그리고 그 값이 객체라면? 리테인과 릴리즈를 주의해야한다.
+``` objectivec
+// 방법 1. 만약 리테인,릴리즈 순서에 주의한다. x,foo 가 같은 객체를
+// 가르키는 포인터라면 0이 되어 메모리에서 해제되기 때문이다.
+-(void)setFoo:(NSDate *)x
+{
+    [x retain];
+    [foo release];
+    foo = x;
+}
 
-	// 방법 1. 만약 리테인,릴리즈 순서에 주의한다. x,foo 가 같은 객체를
-	// 가르키는 포인터라면 0이 되어 메모리에서 해제되기 때문이다.
-	-(void)setFoo:(NSDate *)x
-	{
-		[x retain];
-		[foo release];
-		foo = x;
-	}
+
+// 방법 2. 변경하기 전에 확인한다? 즉 다른값일때만 변경한다.
+void)setFoo:(NSDate *)x
+{
+    if (foo != x) {
+        [foo release] ; // 왜 릴리즈를 먼저 하지 -ㅅ-?
+        foo = [x retain];
+    }
+}
 
 
-	// 방법 2. 변경하기 전에 확인한다? 즉 다른값일때만 변경한다.
-	void)setFoo:(NSDate *)x
-	{
-		if (foo != x) {
-			[foo release] ; // 왜 릴리즈를 먼저 하지 -ㅅ-?
-			foo = [x retain];
-		}
-	}
-	
-	
-	// 방법3. 이전값을 오토릴리즈 한다.
-	- (void)setFoo:(NSDate *)x 
-	{
-		[foo autorelease];
-		foo = [x retain];
-	}
+// 방법3. 이전값을 오토릴리즈 한다.
+- (void)setFoo:(NSDate *)x 
+{
+    [foo autorelease];
+    foo = [x retain];
+}
+```
 
 1,2 번을 추천하네? 3번의 경우 성능저하도 있고 버그추적이 어렵다고 한다. 
 
@@ -539,24 +584,28 @@ A ,B 둘이 서로를 리테인하여 절대 해제 되지 못하는 악순환�
 ### ARC 참조2가지
 - 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
 해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
-해서 고민없이 다음과 같이 작성하면된다.	
-		- (void)setEntryDate:(NSDate *)date {
-			entryDate = date;
-		}
+해서 고민없이 다음과 같이 작성하면된다.
+	``` objectivec
+    - (void)setEntryDate:(NSDate *)date {
+        entryDate = date;
+    }
+    ```
 - 약한참조 : 직접 참조수를 관리하는 포인터와 비슷하다. 약한 참조는 리테인 하지 않고 메모리에 있는 포인터의 값만 변경한다. 단, 이렇게 되면 해당 참조대상이 릴리즈되어 해제 되면 쓰레기 포인터가 발생되게 된다.(실제로는 참조할게 없는) ARC 는 약한 참조들이 가리키는 객체가 메모리에서 해제될때 약한 참조들을 nil 로 자동 설정해서 이를 피한다.
 
 약한 참조는 참조순화을 피하기 위해서 사용한다. 
-
-	@interface Person : NSObject {
-		Person *parent; / / 이런! 이는강한참조순환을발생 시킴! NSMutableArray *children;
-	} @end
+``` objectivec
+@interface Person : NSObject {
+    Person *parent; / / 이런! 이는강한참조순환을발생 시킴! NSMutableArray *children;
+} @end
+```
 	
 기본설정이 강한참조이기 때문에 강한참조가 일어난다고 한다.
- 
-	@interface Person : NSObject {
-		__weak Person *parent; // 좋군!강한참조순환이 없다 
-		NSMutableArray *children;
-	} @end
+```objectivec
+@interface Person : NSObject {
+    __weak Person *parent; // 좋군!강한참조순환이 없다 
+    NSMutableArray *children;
+} @end
+```
 	
 이런 형태는 자주 쓰이는 패턴이라고 한다.
 이 패턴은 Objective-C에서 자주 시용된다. 부모-자식 관계는 강한 참조인 반면, 자식-부모 관계는 약한 참조다.
@@ -569,26 +618,28 @@ Xcode는 기존에 작업하던 프로젝트를 ARC로 변환하는 도구를 �
 
 ### 메모리 풀 이용
 메모리의 자동해제 풀이다. (ARC 는 아님)
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
-	...
-	[pool release];
-	return 0;
+``` objectivec
+NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
+...
+[pool release];
+return 0;
+```
 
 ### 자동 참조 카운팅 ARC 
 NSAutoreleasePool 을 쓰지 않는다. @autoreleaseppol 을 쓴다. 
 사용하는데 몇가지 규칙이 있다.
-
-	int main(int argc,const char* argv[]) {
-		@autoreleasepool
-		{
-			@autoreleasepool 
-			{
-				.... // 이중 선언도 가능함 
-			}
-			....
-		}
-	}
+```objectivec
+int main(int argc,const char* argv[]) {
+    @autoreleasepool
+    {
+        @autoreleasepool 
+        {
+            .... // 이중 선언도 가능함 
+        }
+        ....
+    }
+}
+```
 
 - 강한참조 약한참조
 	- 보통의 객체 생성/참조 는 강한참조임. 자동카운팅이 안됨. 강한 참조를 나타내는 경우에 변수앞ㅁ에 __strong 수식자를 붙임. 기본이므로 안붙여도 된다.
@@ -613,26 +664,28 @@ C++ 의 STL 과 유사하단다. 자료구조,네트워킹,스레드등 여러�
 키 기반 데이터 저장소. 
 주의할점은 `키:값` 이 아니라 `값:키` 이다. 
 중요하다고 생각하는 Dictionary 만 기록해놨다. 나머지는 직접 책에서 봐라. 
+``` objectivec
+NSDictionary *dic;		
+dic  = [NSDictionary dictionaryWithObjectsAndKeys:@"apple"	,@"A"
+                                                , @"banana"	,@"B"
+                                                , @"cherry" ,@"C"
+                                                , nil];
+// 찾을때
+NSString *str = [dic objectForKey:@"B"];	
 
-	NSDictionary *dic;		
-	dic  = [NSDictionary dictionaryWithObjectsAndKeys:@"apple"	,@"A"
-													, @"banana"	,@"B"
-													, @"cherry" ,@"C"
-													, nil];
-	// 찾을때
-	NSString *str = [dic objectForKey:@"B"];	
-	
-	// 넣을때 
-	[dic setObject:@"ABCDEFG" forKey:@"A"];
+// 넣을때 
+[dic setObject:@"ABCDEFG" forKey:@"A"];
+```
 
 ### 래퍼클래스
 
 - NSNumber
-
-		NSNumber *num;
-		int n = 123; 
-		num = [NSNumber numberWithInt:nJ;
-		float f =[num floatValue];
+	``` objectivec
+    NSNumber *num;
+    int n = 123; 
+    num = [NSNumber numberWithInt:nJ;
+    float f =[num floatValue];
+    ```
 		
 - NSValue 
 	NSNumber 클래스의 부모 클래스로 구조체도 저장할 수 있다. 
