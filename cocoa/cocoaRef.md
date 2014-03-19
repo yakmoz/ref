@@ -396,9 +396,8 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 바인딩을 쓸 경우 프로토콜을 구현하지 않아도 될때가 있다. 
 
 ## Notification 노티피케이션 
-자.. 슬라이더와 변수를 옵저빙해놓으면 슬라이더의 변화에 따라 변수의 표시값도 잘 변한다.
-허나 버튼에 값변화 바인딩을 해놓으면 버튼을 클릭한다고 해서 변수의 화면 표시값은 변하지 않는다.
-이를때 직접변경하기 위해서는 노티피케이션(notification) 을 직접 발생시켜야 한다.
+자.. 슬라이더와 변수를 옵저빙해놓으면 슬라이더의 변화에 따라 변수의 표시값도 잘 변한다. 허나 버튼에 값변화 바인딩을 해놓으면 버튼을 클릭한다고 해서 변수의 화면 표시값은 변하지 않는다. 이를때 직접변경하기 위해서는 노티피케이션(notification) 을 직접 발생시켜야 한다.
+
 시작과 끝 두번호출하면되며,
 ``` objectivec
 [self willChangeValueForKey:@"fido"];	// noti start
@@ -407,16 +406,18 @@ NSLog(@"fido is now %d", fido);
 [self didChangeValueForKey:@"fido");	// noti end
 ```
 
-실행중인 어플리케이션에는 모두 NSNotificationCenter 의 인스턴스가 있단다.
-특정 내용에(notification) 관심이 있다고 등록함 등록객체를 옵저버라고 함. 다른 객체들이 노티피케이션 센터에 노티페케이션을 알림. 그러면 관심있다고 등록한 객체에 해당 내용을 전달함.(계속)
+실행중인 어플리케이션에는 모두 NSNotificationCenter 의 인스턴스가 있단다. 특정 내용에(notification) 관심이 있다고 등록함 등록객체를 옵저버라고 함. 다른 객체들이 노티피케이션 센터에 노티페케이션을 알림. 그러면 관심있다고 등록한 객체에 해당 내용을 전달함.
+
+간단히, 노티피케이션 센터에 노티피케이션을 보낸다. 그 노티피케이션을 받아서 처리를 하게 된다.
+
+### observer
+오브젝트는 관심있어하는 노티피케이션을 등록한다. 이렇게 등록된것(오브젝트)를 observer 라고 부른다. 
 
 ### NSNotification
 노티피케이션은 옵저버가 필요로 하는 정보를 넣은 봉투와 같다. 노티피케이션에는 두 가지 중요한 인스턴스 변수인 name과 object가 있다. 
 
-### NSNotificationCenter 
-NSNotificationCenter는 명령을 내 리는 두뇌와 같다. NSNotificationCenter는 옵
-저버 객체를 등록하거나 노티피케이션을 알리고 옵저버 등록을 해제하는 일을
-한다.
+### NSNotificationCenter
+NSNotificationCenter는 명령을 내 리는 두뇌와 같다. NSNotificationCenter는 옵저버 객체를 등록하거나 노티피케이션을 알리고 옵저버 등록을 해제하는 일을 한다.
 ``` objectivec
 (void) addObserver: (id)anObserver 
           selector: (SEL)aSelector
@@ -424,11 +425,49 @@ NSNotificationCenter는 명령을 내 리는 두뇌와 같다. NSNotificationCen
             object: (id)anObject
 ```
 
-이 메서드는 notificationName이란 이름과 anObejct 객체를 포함한 노티피케이션을 받을 anObserver를 등록한다. anObject 객체를 담은 notificationName이라는 이름의 노티피케이션을 노티피케이션 센터에 알리면 이 노티피케이션을 인수로 하는 aSelector 메시지를 anObserver로 보낸다.
+이 메소드의 의미는
+1. notificationName 이라는 이름, anObject 라는 객체 로 이루어진 노티피케이션을 받을 대상 anObserver를 노티피케이션 센터에 등록한다.
+2. 노티피케이션센터에 1로 정의한 노티피케이션이 오면 이 노티피케이션을 인수로 하는 aSelector 메시지를 anObserver 에 보낸다.
+3. 만약 notificationName이 nil이면 노티피케이션 센터는 옵저버에게 anObejct에 해당하는 객체에게 모든 노티피케이션을 보낸다. 
+4. 만약 anObject가 nil이변 노티피케이션 센터는 옵저버 에게 notificationName 이란 이름을 지닌 모든 노티피케이션을 보낸다.
 
-만약 notificationName이 nil이면 노티피케이션 센터는 옵저버에게 anObejct에 해당하는 객체에게 모든 노티피케이션을 보낸다. 
+`postNotification` 혹은 `postNotificationName` 메소드로 노티피케이션을 노티피케이션 센터에 알린다. 자세한건 api 참조바람. 지우는건 `removeObsever`로 지운다.
 
-만약 anObject가 nil이변 노티피케이션 센터는 옵저버 에게 notificationName 이란 이름을 지닌 모든 노티피케이션을 보낸다.
+### observer 등록
+이전에 센터에 등록하던 양식에 맞춰 호출한다. 아래는 예 이다.
+``` objectivec
+-(id)init
+{
+	self = [super init]; 
+	if (self) {
+		employees = [[NSMutableArray alloc] init];
+		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+		[nc addObserver:self 
+			selector:@selector(handleColorChange:)
+			name:BNRColorChangedNotification 
+			object: nil] ;
+		NSLog(@"Registered with notification center") ; 
+	}
+	return self;
+}
+
+// 아래는 삭제 
+(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+```
+
+위의 로직에 따르면 handleColorChange 를 호출하게 되어있다.
+
+``` objectivec
+-(void)handleColorChange:(NSNotification *)note {
+NSLog(@"Received notification:%@", note);
+}
+
+```
+
+### userInfo dictionary
+노티피케이션을 알릴때 더 알리고 싶은게 있다면 userInfo Dictionary 를 이용하면된다. 모든 노티피메이션은 userInfo 라는 변수를 가지고 있다.
 
 
 ## 키-밸류
