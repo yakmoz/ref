@@ -36,6 +36,7 @@
 
 `cmd+shift+p` 를 눌러서 mgp 라고 치면 `Markdown Preview:Github Flavored Markdown:Preview in Browser` 가 나오는걸 볼 수 있다. 해당 뷰로 보면 fenced code block 도 잘 적용되어서 보여진다. 
 
+그리고 `cmd+r` 을 눌러서 문단을 쉽게 오갈 수 있다. 문단의 의미는 `#` 같은게 된다.
 * * * 
 !!!혹시 패키지 컨트롤 창을 띄워서 나오는 명령에 바로 단축키 맵핑하시는법 아시는분 있의면 댓글로 알려주시면 감사하겠습니다.
 
