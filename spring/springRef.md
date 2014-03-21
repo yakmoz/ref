@@ -10,16 +10,18 @@
 원래 java 는 웹서비스를 위한 서블릿을 제공하고 있다. 서블릿을 선언하고 이름을 정하고 어떤 클래스에의해 처리될지를 명시한뒤에 그 서블릿이 어떤 url에 맵핑될지 선언하는 형태이다.
 
 아래는 자바 서블릿 예제이다. 아래의 HelloServlet 은 Servlet 을 extends 한 클래스이다.
-	
-	<servlet>
-		<servlet-name>hello</servlet-name>
-		<servlet-class>whiteship.HelloServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>hello</servlet-name>
-		<url-pattern>/hello</url-pattern>
-	</servlet-mapping>
+  
+```xml
+<servlet>
+	<servlet-name>hello</servlet-name>
+	<servlet-class>whiteship.HelloServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>hello</servlet-name>
+	<url-pattern>/hello</url-pattern>
+</servlet-mapping>
+```
 
 위와같은 선언의 경우 경로를 일일이 선언해야 하는 케이스가 발생할 수 있다. 
 스프링을이용하게 되면 스프링의 dispatcherservlet과 어노테이션에 의한 auto-scan 을 이용하게 된다.
@@ -41,15 +43,17 @@
 
 아래가 예제이다.
 
-	<servlet>
-		<servlet-name>spring</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/app/*</url-pattern>
-	</servlet-mapping>
+``` xml
+<servlet>
+	<servlet-name>spring</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>spring</servlet-name>
+	<url-pattern>/app/*</url-pattern>
+</servlet-mapping>
+```
 
 1. 스프링의 DispatcherServlet 을 등록하고 /app 이하의 모든 처리를 한다. 즉 url 에서는 [DOMAIN ROOT]/app/.... 으로 오면 / 이하로 app 으로 시작한것으로 dispatcherservlet 의 처리대상이 된다. 
 2. 해당 dispacher 동작을 위해 이름-servlet.xml 파일이 필요하다.
@@ -96,14 +100,16 @@ Controller 는 처리의 시작점이라고 생각해도 된다. dispatcher 는 
 
 아래가 그 설정이다.
 
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+``` xml
+<listener>
+	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext*.xml</param-value>
-	</context-param>
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>classpath:applicationContext*.xml</param-value>
+</context-param>
+```
 
 내용을 보면 스프링 설정파일을 지정했다. ContextLoadListener 가 하는 일은 웹 어플리케이션이 로딩될 때 WAC 를 만드는것이다. 이렇게 생성된 WAC 는 contextConfigLocation에 설정한 xml 빈 설정파일을 사용하여 WA에서 사용할 객체를 관리해준다. 위의 설정파일은 `src/applicationContext*.xml` 이 된다.
 
@@ -111,19 +117,21 @@ Controller 는 처리의 시작점이라고 생각해도 된다. dispatcher 는 
 ### 2. 앞단의 컨트롤러 부분? (DS) 
 CLL 가 아닌 DS 를 살펴보자면..
 
-	<servlet>
-		<servlet-name>spring30</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
-		</init-param>
-	</servlet>   
+``` xml
+<servlet>
+	<servlet-name>spring30</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+	</init-param>
+</servlet>   
 
-	<servlet-mapping>
-		<servlet-name>spring30</servlet-name>
-		<url-pattern>/app/*</url-pattern>
-	</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>spring30</servlet-name>
+	<url-pattern>/app/*</url-pattern>
+</servlet-mapping>
+```
 
 DispatcherServlet 을 설정하고 url 맵핑했다. DispatcherServlet 은 Servlet 을 확장한 클래스이다(url 맵핑기능. 일종의 대문역할).
 앞에서 봤듯이 /app 으로 오는 모든 처리를 해당 spring30 서블릿이 처리한다. 그 처리할 빈은 어디에있느냐? webmvc-config.xml 로 지정해놓은걸 볼 수 있다. 
@@ -156,12 +164,14 @@ DispatcherServlet 을 설정하고 url 맵핑했다. DispatcherServlet 은 Servl
 
 CLL은 비지니스 관련 빈들을 관리하게 될 것이다. applicationContext.xml 파일의 내용을 보면...
 
-	<context:property-placeholder location="classpath*:*.properties" />
+``` xml
+<context:property-placeholder location="classpath*:*.properties" />
 
-	<context:component-scan base-package="sample">
-		<context:exclude-filter expression="org.springframework.stereotype.Controller"
-			type="annotation" />
-	</context:component-scan>
+<context:component-scan base-package="sample">
+	<context:exclude-filter expression="org.springframework.stereotype.Controller"
+		type="annotation" />
+</context:component-scan>
+```
 
 component autoscan 의 내용중 exclude 로 된것을 볼 수 있다. MVC 의 @Controller 를 배제한것이다.
 해당 어노테이션은 빼고 빈등록(Component, Service, Repository)을 하게 될 것이다.
@@ -170,12 +180,14 @@ component autoscan 의 내용중 exclude 로 된것을 볼 수 있다. MVC 의 @
 #### - DS
 	DS 에서 WAC 만들때 사용할 xml 파일... (web.xml 에 webmvc-config.xml 라고 정의했었음)
 
-	<context:component-scan base-package="sample" use-default-filters="false">
-		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
-	</context:component-scan>
-	
-	<mvc:annotation-driven/>
-	
+``` xml
+<context:component-scan base-package="sample" use-default-filters="false">
+	<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+</context:component-scan>
+
+<mvc:annotation-driven/>
+```
+    
 우선 component-scan 은 똑같이 존재하나 그 대상이 다르다. 여기서는 exclude 가 아니라 include 로 특정대상만 검색하고자 한다. 앞에서 exclude 했던 @Controller 만 빈등록 대상으로 했다. 왜? 여기는 웹용이니까!
 
 그 아래 mvc 태그로 된 부분은 스프링 MVC 사용할때 기본적으로 필요한 빈을 등록해주는 설정이다. 중요한 설정이지.
@@ -250,11 +262,13 @@ DI는 Dependency Injection라고 '의존성 주입'이라고 한다.
 
 >4. 예제
 >
-		public class MovieLister{
+
+        public class MovieLister{
 			public void list() {
 				MovieFinder finder = new SFMovieFinderImpl();
 			}
 		}
+
 >
 >		이런 클래스가 있다고 했을 때 ( MovieFinder 는 인터페이스 ) `new SFMovieFinderImpl();` 부분을 변경하여 다른 곳에 떠 넘긴다.
 
