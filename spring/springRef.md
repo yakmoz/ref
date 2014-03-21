@@ -65,15 +65,17 @@
    
 7. 이제 서블릿대신 어노테이션을 단 `HelloController`컨트롤러를 만든다.
 
-		@Controller
-		public class HelloController {
+	``` java
+	@Controller
+	public class HelloController {
 		
-			@RequestMapping( "/hello")
-			public String hello(@RequestParam String name, Model mode) {
-				model.addAttribute( "hello", "hello" + name);
-				return "/WEB-INF/views/hello.jsp" ;
-			}
-   		}
+		@RequestMapping( "/hello")
+		public String hello(@RequestParam String name, Model mode) {
+			model.addAttribute( "hello", "hello" + name);
+			return "/WEB-INF/views/hello.jsp" ;
+		}
+   	}
+	```
 		
 	한가지 주의할것은 xml 설정에 /app 이하의 처리를 하게 되다. HelloController 에서 메소드에 `/hello` 되어있는데 스프링이 받아들이기는 
 	
