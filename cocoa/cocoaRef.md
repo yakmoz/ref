@@ -1,3 +1,33 @@
+
+<!-- MarkdownTOC depth=2 -->
+
+- cocoa 프로그래밍 여러책 정리
+- 타입
+- U I
+    - 작성순서
+    - 커스텀뷰
+- 문자
+- 할당, 선언 및 호출
+    - 프로토콜(protocol)
+    - 바인딩(Binding)
+    - Notification 노티피케이션
+    - 키-밸류
+    - 키-밸류 옵저빙 (key value observing)
+    - NSBundle
+    - NSDictionary , NSMutableDictionary
+    - 카테고리
+- 언어비교
+- 메모리
+- Foundation Framework 클래스
+- undo...
+- 아카이브 (archive)
+- Process...?
+    - NSTask
+    - NSPipe
+
+<!-- /MarkdownTOC -->
+
+
 # cocoa 프로그래밍 여러책 정리
 
 # 타입
@@ -70,6 +100,28 @@ mySelector = NSSelectorFromString(@"drawMickey:");
     2가지가 있다. 
 3. 우선 UI 객체들을 interface 에 넣자.  
 
+### 경고패널 
+자바와 마찬가지로 간단히 경고패널을 띄울 수 있다.
+
+``` objectivec
+NSlnteger NSRunAlertPanel(NSString *title,
+                          NSString *msg,
+                          NSString *defaultButton ,
+                          NSString *alternateButton,
+                          NSString *otherButton,... );
+
+// ex
+NSlnteger choice = NSRunAlertPanel (@"Title" , @"Message" ,@"Default" , @"Alternate“, @"Other");                          
+```
+confirm 같은 개념의 간편한 선택창도 존재한다.
+
+## 커스텀뷰
+화면에 보이는건 모두 객체이고 윈도(NSWindow의 인스턴스) or 뷰(NSView) 둘중하나이다. 윈도마다 뷰의 집합이 있다. NSView 의 서브클래스들이 바로 NSButton, NSTextField, NSTableView, NSColorWell 같은것들이다. (이들은 윈도가 아니라 뷰임)
+
+윈도는 컨텐트 뷰를 갖는데 그 컨텐트 뷰안에 서브뷰 여러개가 있게 된다. 뷰는 자신의 슈퍼,서브뷰, 그리고 현재 뷰가 있는 윈도정보도 알고있다.
+
+### 화면 자동 사이즈 조절
+윈도화면을 만들고 거기에 뷰를 올린뒤 (전체를 덮게) Size Inspector에서 AutoSizing 뷰 안에 빨간선을 선택해서 autosizing 범위를 설정할 수 있다. <u>만약 size inspector 부분에 autosizing 메뉴가 안보인다면 file inspcetor 에 가서 auto layout 을 끄면 메뉴가 보일것이다.</u>
 
 # 문자
 ### 문자열  
@@ -509,6 +561,11 @@ Dictionary 는 hash테이블로 구현되어있다. 심지어 for-in 은 바로 
 
 NSMutableDictionary 에 같은 키로 새로 값을 넣으면 이전 값을 release 해버리고 retain 후 넣는다. 
 
+## 카테고리 
+기존 클래스에 없는 새로운 메소드를 추가할 수 있다. 이 과정이 클래스를 상속받아 수정하는 그런내용은 아니다. 원래 라이브러리리나 객체 에 추가할 기능의 이름을 이용하여 새로운 파일을 생성한다. 확인해둘만한 내용이긴한데 어떤의미에선 없는 메소드를추가한것이 다른사람들에게 원래 있는것처럼 잘못 비춰질수도 있는것도 고민해봐야할 문제가 아닌가 싶다. 
+
+보통은 새로운기능을 위해 별도의 메소드를 만들고 그안에서 원래라이브러리를 구성으로 엮는 형태로 작업한다.
+
 # 언어비교
 ###  자바와 objective-c 비교
 java 버전
@@ -536,7 +593,7 @@ public void increment(Object sender)
 ### 오브젝티브-C 에서는 반드시 객체는 포인터를 통해서 다뤄야 한다.
 
 
-#메모리
+# 메모리
 간단히 말하자면 ARC 형태로 작성하라. 
 
 ### Objective-C Automatic Reference Counting
@@ -624,11 +681,13 @@ A ,B 둘이 서로를 리테인하여 절대 해제 되지 못하는 악순환�
 - 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
 해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
 해서 고민없이 다음과 같이 작성하면된다.
-	``` objectivec
+
+    ``` objectivec
     - (void)setEntryDate:(NSDate *)date {
         entryDate = date;
     }
     ```
+    
 - 약한참조 : 직접 참조수를 관리하는 포인터와 비슷하다. 약한 참조는 리테인 하지 않고 메모리에 있는 포인터의 값만 변경한다. 단, 이렇게 되면 해당 참조대상이 릴리즈되어 해제 되면 쓰레기 포인터가 발생되게 된다.(실제로는 참조할게 없는) ARC 는 약한 참조들이 가리키는 객체가 메모리에서 해제될때 약한 참조들을 nil 로 자동 설정해서 이를 피한다.
 
 약한 참조는 참조순화을 피하기 위해서 사용한다. 
@@ -733,7 +792,7 @@ NSString *str = [dic objectForKey:@"B"];
 # undo...
 이거 ... 생각보다 복잡하네 (이해만 하면 되는 내용인것 같긴한데, 뭔가 서로 맵핑하고 물리는게 많다)
 
-#아카이브 (archive)
+# 아카이브 (archive)
 바이트의 스트림(stream of bytes) 같은 오브젝트의 집합(graph of objects) 을 아카이브라고 한다. 
 (아하... 이게 자바로 치면 serialization .. 직렬화네)
 
@@ -744,6 +803,11 @@ NSString *str = [dic objectForKey:@"B"];
 
 NSCoder 는 바이트 스트림을 추상화한 것이다. 그리고 추상 클래스이다.
  
+# Process...?
+## NSTask
+
+## NSPipe
+
 
 
 
