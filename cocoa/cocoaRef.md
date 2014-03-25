@@ -24,6 +24,7 @@
 - Process...?
     - NSTask
     - NSPipe
+- Document-based ?
 
 <!-- /MarkdownTOC -->
 
@@ -223,12 +224,12 @@ objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 g
 @property (속성) 형 이름;
 ```objectivec
 ex) 
-@property (readwrite) int num;
+@property (readwrite,weak) int num;
 ```
 	
 속성에는 여러가지 값이 있으니 찾아보기바란다. 필요 없으면 생략 가능하다.
 
-- assign : 기본갑시. 단순히 대입만한다. 보통 정수형,실수형같은 스칼라형에만 사용함. (포인터형 아닌)
+- assign : 기본값임. 단순히 대입만한다. 보통 정수형,실수형같은 스칼라형에만 사용함. (포인터형 아닌)
 - strong : 강한 참조를 의미함. 포인터 값이 설정되어 있는 동안 메모리에서 해제되는것을 방지.ARC 에서 사용함. ARC 를 사용하지 않는다면 retain 속성과 동일하게 동작
 - weak : 약한참조. assign 과 비슷하지만,메모리에서 해제시 nil 로 설정된다는 점이다르다. ARC 에서만 지원. 
 - copy : 새로운 값을 복사하고 변수에 복사한 값을 대입한다. 
@@ -807,6 +808,18 @@ NSCoder 는 바이트 스트림을 추상화한 것이다. 그리고 추상 클�
 ## NSTask
 
 ## NSPipe
+
+# Document-based ?
+말 그대로 문서기반으로, 여러문서를 열고 동작을 수행할 수 있음을 의미한다. 보통의 워드나 엑셀등을 떠올려보면 이해갈 것이다.
+이를(도큐먼트 아키텍처) 위해서는 NSDocumentController, NSdocument,NSWindowController 클래스가 필요하다.
+
+>Document-based apps handle multiple documents, each in its own window, and often display more than one document at a time. Although these apps embody many complex behaviors, the document architecture provides many of their capabilities “for free,” requiring little additional effort in design and implementation. 
+
+> The Cocoa document architecture uses the Model-View-Controller (MVC) design pattern...
+
+[from mac developer library](https://developer.apple.com/library/mac/documentation/DataManagement/Conceptual/DocBasedAppProgrammingGuideForOSX/Introduction/Introduction.html)
+
+
 
 
 
