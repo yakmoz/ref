@@ -20,6 +20,7 @@
     - 카테고리
 - 언어비교
 - 메모리
+    - 자원 관리되는 형태
     - autorelease?
 - Foundation Framework 클래스
 - undo...
@@ -636,6 +637,19 @@ public void increment(Object sender)
 
 # 메모리
 간단히 말하자면 ARC 형태로 작성하라. 
+
+## 자원 관리되는 형태 
+- alloc(with init) 이나 new 로 시작하거나 copy 가 포함된 메소드등을 이용해 오브젝트를 생성하면 오너십을 가져가게 된다.
+즉 오토릴리즈 풀 대상이 되지 않는다.(리테인은 1) 이말은 해당 객체를 release 할 책임을 가지고 있다.  
+
+- 다른 몇몇 편리한 메소드들을 통해서 오브젝트를 생성하는것은 오너십을 가지지 않게된다.
+
+- 원한다면 retain 을 통해서 오너십을 가질 수 있다.
+
+- 오너십을 가진뒤 더이상 필요하지 않게 되면 release 나 autorelease 를 보내라.
+release 는 즉시 해지 이고, autorelease 는 풀이 소진되었을때 해지이다.
+
+- retain count 가 있는한 오브젝트는 계속 존재하게 된다.
 
 ### Objective-C Automatic Reference Counting
 scala 였던가? 참고 카운팅을 기록해두었다가 0이 되면 해제 처리. 
