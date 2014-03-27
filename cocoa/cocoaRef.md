@@ -20,6 +20,7 @@
     - 카테고리
 - 언어비교
 - 메모리
+    - autorelease?
 - Foundation Framework 클래스
 - undo...
 - 아카이브 (archive)
@@ -716,6 +717,20 @@ void)setFoo:(NSDate *)x
 
 ### 참조순환
 A ,B 둘이 서로를 리테인하여 절대 해제 되지 못하는 악순환을 의미함 
+
+## autorelease?
+addison wesley Cocoa Programming for Mac OS x 4th , 원서 74페이지
+
+Autorelease pools 은 오브젝트의 릴리즈를 간편하게 해준다. 당신은 현재의 autorelease pool 에 `autorelease` 메시지를 보냄으로써 간단히 오브젝트를 추가할 수 있다. autorelease pool 에 오브젝트를 추가하는것은 그것이 미래의 어느시점에 `release` 메시지를 보낼거라는 것이라는 표식이다.
+
+릴리즈 메시지는 풀이 한번 비워지면 보내진다. 코코아 어플리케이션에서 autorelease 풀은 각각의 이벤트가 처리되기전에 생성되고, 이벤트가 처리된 뒤에 비워진다. 그래서 autorelease pool 의 오브젝트들이 retain 되지 않는한 오브젝트들은 이벤트가 완료되는 즉시 제거된다.
+
+autorelease 를 선언한 범위내에 pool 이 생성되고 초기에는 비어있다. 거기에 retain 등을 통해서 풀이 채워진다.
+어느시점에 그 풀이 다 drained... 배수되어 비어버리면 모든 객체에 release 를 보낸다. (메모리 해제)
+
+autorelease 를 오브젝트에 n 회 할 경우 pool 이 한번 비워지 release 를 n 회 보낸다.
+
+
 
 ### ARC 참조2가지
 - 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
