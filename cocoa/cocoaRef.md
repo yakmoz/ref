@@ -6,6 +6,7 @@
 - U I
     - 작성순서
     - 커스텀뷰
+    - Dock
 - UI 와 클래스의 연결? 객체연결
 - 문자
 - 할당, 선언 및 호출
@@ -34,11 +35,13 @@
 
 # 타입
 
-### IBOutlet 은 아무것도 하지 않는 void??
-UI 를 그린뒤 h 에 넣을때 Outlet 으로 넣으면 이 값으로 설정된다. (void 와 같은 의미?) 
+### IBOutlet 은 아무것도 하지 않는 매크로? 마크드?
+UI 를 그린뒤 h 에 넣을때 Outlet 으로 넣으면 이 값으로 설정된다. 
+인터페이스 빌더가 클래스에 선언한 값을 인식하기 위한 키워드임.(이렇게 선언해야 아웃렛을 하겠지??)
 이 Connection 은 action 이 아닌 UI 객체에 접근하기 위해 정의한다라고 생각해도 된다. 이 값으로 이 UI 를 가르키는 포인터가 필요한데 이 과정으로 프로퍼티가 생성됨. 여기서 name 을 정하는데 컴파일러는 `_이름` 으로 변수를 자동으로 만든다. 이건 @synthesize 를 통해서 Accessor Method 로 인해 가능해지는것 같은데 말야.
 
 ### IBAction 은 void 와 같다
+인터페이스 빌드에서 사용한다.
 UI 를 그린뒤 h 에 넣을때 Action 으로 넣으면 이 값으로 설정된다.(void 와 같은 의미?) 인터페이스 빌더에서 사용한다. 버튼을 눌러서 액션이 일어나야 할경우 Connection 을 Action 으로 하면된다. 
 
 ### id??
@@ -113,8 +116,9 @@ NSlnteger NSRunAlertPanel(NSString *title,
                           NSString *otherButton,... );
 
 // ex
-NSlnteger choice = NSRunAlertPanel (@"Title" , @"Message" ,@"Default" , @"Alternate“, @"Other");                          
+NSlnteger choice = NSRunAlertPanel (@"Title" , @"Message" ,@"Default" , @"Alternate“, @"Other");
 ```
+
 confirm 같은 개념의 간편한 선택창도 존재한다.
 
 ## 커스텀뷰
@@ -125,7 +129,22 @@ confirm 같은 개념의 간편한 선택창도 존재한다.
 ### 화면 자동 사이즈 조절
 윈도화면을 만들고 거기에 뷰를 올린뒤 (전체를 덮게) Size Inspector에서 AutoSizing 뷰 안에 빨간선을 선택해서 autosizing 범위를 설정할 수 있다. <u>만약 size inspector 부분에 autosizing 메뉴가 안보인다면 file inspcetor 에 가서 auto layout 을 끄면 메뉴가 보일것이다.</u>
 
-### Dock 
+### awakeFromNib
+NIB 파일을 불러와서 객체가 생성된 후 이벤트 처리하기 전에 모든 객체에 awakeFromNib 메시지를 보낸다고하네??? 이 메소드를 추가하면 흡사 post 처리등을 할 수 있게되는건가???
+
+``` objectivec
+-(void) awakeFromNib
+{
+    NSDate *now;
+    now = [NSDate date];
+    [textField setObjectValue:now];
+}
+```
+
+실제로 위와같이 처리된다.
+
+
+## Dock 
 UI 편집화면 왼쪽에 File's Owner 등이 있는 곳
 
 - File's Owner : 현재 어플리케이션을 위하 NSApplication 객체. 이벤트를 받아서 전달함
@@ -141,6 +160,8 @@ UI 편집화면 왼쪽에 File's Owner 등이 있는 곳
 1. 왼쪽에 연결된 파란색 오브젝트에서 마우스오른쪽 버튼을 클릭한다.
 2. 팝업이 나타나는데 거기에 보면 해당 클래스에 선언한 변수도 나열된다. 원하는 변수의 옆에 있는 원을 클릭하여 원하는 UI 상에 존재하는 개체로 드래그 한다. 
 3. 만약 버튼이라면 버튼을 ctrl키를 누른채 드래그해서 파란색 오브젝트에 링크건다. 그러면 팝업이 뜨는데 그안에는 이전과 같이 클래스 내부에 선언된 멤버들이 보일것이다. 액션이라면 원하는 메소드에 드롭해서 연결하게 된다.
+
+
 
 # 문자
 ### 문자열  
