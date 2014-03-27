@@ -663,10 +663,18 @@ ARC 는 근래에 지원하기 시작한 기능이고, 컴파일러 기능이다
 
 ### ARC 참조2가지
 - 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
-해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
-해서 고민없이 다음과 같이 작성하면된다.
+강한참조는 해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
+해서 고민없이 다음과 같이 작성하면된다. (재정의?)
 
     ``` objectivec
+    -(void)setEntryDate:(NSDate *)date {
+        [date retain]; 
+        [entryDate release] ; // 해제하고
+        entryDate = date;   // 다시 할당 
+    }
+
+    // ARC 를 쓰게 되면 다음과 같이 처리 
+
     - (void)setEntryDate:(NSDate *)date {
         entryDate = date;
     }
