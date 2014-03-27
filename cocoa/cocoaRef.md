@@ -748,7 +748,8 @@ autorelease 를 오브젝트에 n 회 할 경우 pool 이 한번 비워지 relea
 약한 참조는 참조순화을 피하기 위해서 사용한다. 
 ``` objectivec
 @interface Person : NSObject {
-    Person *parent; / / 이런! 이는강한참조순환을발생 시킴! NSMutableArray *children;
+    Person *parent; // 이런! 이는강한참조순환을발생시킴! 
+    NSMutableArray *children;
 } @end
 ```
 	
