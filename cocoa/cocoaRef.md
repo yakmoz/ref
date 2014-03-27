@@ -651,9 +651,72 @@ release 는 즉시 해지 이고, autorelease 는 풀이 소진되었을때 해�
 
 - retain count 가 있는한 오브젝트는 계속 존재하게 된다.
 
-### Objective-C Automatic Reference Counting
+### ARC, Automatic Reference Counting
 scala 였던가? 참고 카운팅을 기록해두었다가 0이 되면 해제 처리. 
 이와 비슷한 형태로 보인다. 이를 off 해두는 경우 메모리 낭비나 위험요소등에 주의해야 한다.
+
+ARC 는 근래에 지원하기 시작한 기능이고, 컴파일러 기능이다.(정적분석기 기술에 바탕을둠)
+즉 컴파일 하는 시점에서 자원에 대한 retain/release 를 검토후 이를 반영하게 된다.
+
+당연히 retain/release/autorelease 호출할 수 ... 아니 호출해선 안된다. 에러나거든.
+
+
+### ARC 참조2가지
+- 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
+해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
+해서 고민없이 다음과 같이 작성하면된다.
+
+    ``` objectivec
+    - (void)setEntryDate:(NSDate *)date {
+        entryDate = date;
+    }
+    ```
+    
+- 약한참조 : 직접 참조수를 관리하는 포인터와 비슷하다. 약한 참조는 리테인 하지 않고 메모리에 있는 포인터의 값만 변경한다. 단, 이렇게 되면 해당 참조대상이 릴리즈되어 해제 되면 쓰레기 포인터가 발생되게 된다.(실제로는 참조할게 없는) ARC 는 약한 참조들이 가리키는 객체가 메모리에서 해제될때 약한 참조들을 nil 로 자동 설정해서 이를 피한다.
+
+약한 참조는 참조순화을 피하기 위해서 사용한다. 
+``` objectivec
+@interface Person : NSObject {
+    Person *parent; // 이런! 이는강한참조순환을발생시킴! 
+    NSMutableArray *children;
+} @end
+```
+    
+기본설정이 강한참조이기 때문에 강한참조가 일어난다고 한다.
+```objectivec
+@interface Person : NSObject {
+    __weak Person *parent; // 좋군!강한참조순환이 없다 
+    NSMutableArray *children;
+} @end
+```
+    
+이런 형태는 자주 쓰이는 패턴이라고 한다.
+이 패턴은 Objective-C에서 자주 시용된다. 부모-자식 관계는 강한 참조인 반면, 자식-부모 관계는 약한 참조다.
+ARC로 컴파일한 클래스들만이 약한 참조들로 이 클래스들을 할당할 수 있다. 만약 __weak 변수로 약한 참조를 지원하지 않는 클래스를 할당하려고 하면 예외가 발생할 것이다. 
+
+### 자동 참조 카운팅 ARC 
+NSAutoreleasePool 을 쓰지 않는다. @autoreleaseppol 을 쓴다. 
+사용하는데 몇가지 규칙이 있다.
+```objectivec
+int main(int argc,const char* argv[]) {
+    @autoreleasepool
+    {
+        @autoreleasepool 
+        {
+            .... // 이중 선언도 가능함 
+        }
+        ....
+    }
+}
+```
+
+- 강한참조 약한참조
+    - 보통의 객체 생성/참조 는 강한참조임. 자동카운팅이 안됨. 강한 참조를 나타내는 경우에 변수앞ㅁ에 __strong 수식자를 붙임. 기본이므로 안붙여도 된다.
+    - `__week` 를 붙여서 만들고, 불필요하다고 판단되면 자동으로 카운팅되어 release 된다. 
+    - ARC 는 NSAutoreleasePool 을 사용하지 못함
+    - alloc/init 할 수 있지만 retain,release , autorelease,retainCount 호출안됨
+    - dealloc 호출 안됨(오버라이딩호 [super dealloc] 안됨 
+
 
 ### 자원 해제 형태
 사실상 2가지이다. 하나는 다른 언어에서도 사용하는 참조카운트에 관련된 2가지와 나머지 하나는 가비지 컬렉터에 의한 해두는제이다. 
@@ -746,40 +809,6 @@ autorelease 를 오브젝트에 n 회 할 경우 pool 이 한번 비워지 relea
 
 
 
-### ARC 참조2가지
-- 강한참조 : 기본적으로 참조는 강한 참조이다. (직접 retain 등을 하는것이지?) 
-해당 참조가 새로운 값으로 변경되면 이전 객체는 릴리즈 되고 새로운 객체가 리테인된다.
-해서 고민없이 다음과 같이 작성하면된다.
-
-    ``` objectivec
-    - (void)setEntryDate:(NSDate *)date {
-        entryDate = date;
-    }
-    ```
-    
-- 약한참조 : 직접 참조수를 관리하는 포인터와 비슷하다. 약한 참조는 리테인 하지 않고 메모리에 있는 포인터의 값만 변경한다. 단, 이렇게 되면 해당 참조대상이 릴리즈되어 해제 되면 쓰레기 포인터가 발생되게 된다.(실제로는 참조할게 없는) ARC 는 약한 참조들이 가리키는 객체가 메모리에서 해제될때 약한 참조들을 nil 로 자동 설정해서 이를 피한다.
-
-약한 참조는 참조순화을 피하기 위해서 사용한다. 
-``` objectivec
-@interface Person : NSObject {
-    Person *parent; // 이런! 이는강한참조순환을발생시킴! 
-    NSMutableArray *children;
-} @end
-```
-	
-기본설정이 강한참조이기 때문에 강한참조가 일어난다고 한다.
-```objectivec
-@interface Person : NSObject {
-    __weak Person *parent; // 좋군!강한참조순환이 없다 
-    NSMutableArray *children;
-} @end
-```
-	
-이런 형태는 자주 쓰이는 패턴이라고 한다.
-이 패턴은 Objective-C에서 자주 시용된다. 부모-자식 관계는 강한 참조인 반면, 자식-부모 관계는 약한 참조다.
-ARC로 컴파일한 클래스들만이 약한 참조들로 이 클래스들을 할당할 수 있다. 만약 __weak 변수로 약한 참조를 지원하지 않는 클래스를 할당하려고 하면 예외가 발생할 것이다. 
-
-
 ### ARC로의 손쉬운 변환
 Xcode는 기존에 작업하던 프로젝트를 ARC로 변환하는 도구를 제공한다. 이 도구는 Edit 메뉴 아래 `Refactor ->Convert to Objective-C Automatic Reference Counting` 에서 찾을 수 있다.
 유의할 점은 _**ARC 코드는 Mac OS X 10.6과 iOS4에서 동작하지만 약한 참조는 해당 플랫폼 들을지원하지않는다.**_
@@ -792,29 +821,6 @@ NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
 [pool release];
 return 0;
 ```
-
-### 자동 참조 카운팅 ARC 
-NSAutoreleasePool 을 쓰지 않는다. @autoreleaseppol 을 쓴다. 
-사용하는데 몇가지 규칙이 있다.
-```objectivec
-int main(int argc,const char* argv[]) {
-    @autoreleasepool
-    {
-        @autoreleasepool 
-        {
-            .... // 이중 선언도 가능함 
-        }
-        ....
-    }
-}
-```
-
-- 강한참조 약한참조
-	- 보통의 객체 생성/참조 는 강한참조임. 자동카운팅이 안됨. 강한 참조를 나타내는 경우에 변수앞ㅁ에 __strong 수식자를 붙임. 기본이므로 안붙여도 된다.
-	- `__week` 를 붙여서 만들고, 불필요하다고 판단되면 자동으로 카운팅되어 release 된다. 
-	- ARC 는 NSAutoreleasePool 을 사용하지 못함
-	- alloc/init 할 수 있지만 retain,release , autorelease,retainCount 호출안됨
-	- dealloc 호출 안됨(오버라이딩호 [super dealloc] 안됨 
 
 ### 가비지 콜렉션 
 간단히 말해 deprecated 되었다. 후에 자바처럼 고민안하고 쓸 수 있는 버전이 나올려나?
