@@ -283,6 +283,51 @@ Function<String, String> backToString = toInteger.andThen(String::valueOf);
 backToString.apply("123");     // "123"
 ```
 
+### Suppliers
+Suppliers 는 주어진 제네릭타입의 결과를 생성한다. 함수들과 달리, Suppliers 는 아규먼트를 받지 않는다. 
+``` java
+Supplier<Person> personSupplier = Person::new;
+personSupplier.get();   // new Person
+```
+
+### Consumers
+Consumers 는 단일 입력 아규먼트를 받아 실행될 동작들을 나타낸다.
+
+``` java
+Consumer<Person> greeter = (p) -> System.out.println("Hello, " + p.firstName);
+greeter.accept(new Person("Luke", "Skywalker"));
+```
+
+### Comparators
+Comparators 는 자바의 이전버전때 부터 잘 알려져왔다. Java 8 은 당얀한 default methods 들을 인터페이스에 추가했다. 
+``` java
+Comparator<Person> comparator = (p1, p2) -> p1.firstName.compareTo(p2.firstName);
+
+Person p1 = new Person("John", "Doe");
+Person p2 = new Person("Alice", "Wonderland");
+
+comparator.compare(p1, p2);             // > 0
+comparator.reversed().compare(p1, p2);  // < 0
+```
+
+### Optionals
+Optionals 은 함수인터페이스가 아니고 `NullPointerException` 을 막는 멋진 유틸리티이다.
+이것은 다음섹션을 위해서 중요한 컨셉인데, Optionals이 어떻게 동작하는지 간단히 살펴보자.
+
+Optional 은 null 이나 non-null 을 수 있는 값을 위한 간단한 컨테이너이다. 보통은 non-null 을 리턴하지만 가끔은 아무것도 리턴하지 않는 메소드를 생각해보자. Java 8 에서는 null 을 리턴하는대신 `Optional` 을 리턴할 수 있다.
+
+``` java
+Optional<String> optional = Optional.of("bam");
+
+optional.isPresent();           // true
+optional.get();                 // "bam"
+optional.orElse("fallback");    // "bam"
+
+optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
+```
+
+## Streams
+
 
 
 
