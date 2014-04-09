@@ -165,10 +165,11 @@ interface PersonFactory<P extends Person> {
 }
 ```
 
-factory 를 직접 구현하는 대신, 생성자 참조를 통해서 모든걸 붙인다.(glue)
+factory 를 직접 구현하는 대신, 생성자 참조를 통해 모든걸 조립한다.(glue)
 
+``` java
+PersonFactory<Person> personFactory = Person::new;
+Person person = personFactory.create("Peter", "Parker");
+```
 
-
-
-
-
+우리는 Person::new 로 Person 생성자의 참조를 생성했다. 자바 컴파일러는 `PersonFactory.create` 의 시그니처 매칭을 통해 올바른 생성자를 자동적으로 고른다. 
