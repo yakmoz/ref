@@ -22,6 +22,9 @@
 - References : 참조 
 - method : 메소드 
 - Constructor References : 생성자 참조 
+- static variables : 정적 변수
+- instance fields : 인스턴스 필드들 
+- 
 
 ## Default Method for Interface
 아주 간단히 말하면 인터페이스에 구현이 가능하다.
@@ -173,3 +176,48 @@ Person person = personFactory.create("Peter", "Parker");
 ```
 
 우리는 Person::new 로 Person 생성자의 참조를 생성했다. 자바 컴파일러는 `PersonFactory.create` 의 시그니처 매칭을 통해 올바른 생성자를 자동적으로 고른다. 
+
+## Lambda Scopes 
+
+람다 표현식으로 outer scope 의 변수들을 액세스 하는것은 익명 오브젝트에게 하는것과도 유사하다. 지역 outer scope 에서도 final 변수들뿐만 아니라 인스턴스 필드들과 정적 변수들 또한 액세스 가능하다. 
+
+### Accessing local variables
+우리는 람다표현식의 outer scope 를 통해 final 로컬 변수들을 읽을 수 있다.
+
+``` java
+final int num = 1;
+Converter<Integer, String> stringConverter =
+        (from) -> String.valueOf(from + num);
+
+stringConverter.convert(2);     // 3
+```
+
+그러나 익명 오브젝트들에게는 변수 `num` 은 `final` 로 선언될 필요가 없다는점은 다르다.
+이 코드또한 valid 하다.
+
+``` java
+int num = 1;
+Converter<Integer, String> stringConverter =
+        (from) -> String.valueOf(from + num);
+
+stringConverter.convert(2);     // 3
+```
+
+그러나 `num` 은 반드시 코드가 컴파일 되기 위해 암묵적으로 fianl 이어야 한다. 다음의 코드는 컴파일 되지 않는다.
+
+``` java
+int num = 1;
+Converter<Integer, String> stringConverter =
+        (from) -> String.valueOf(from + num);
+num = 3;
+```
+
+람다표현식 내부에서 num 에 값을 쓰는것도 역시 금지된다.
+
+## Accessing fields and static variables
+
+
+
+
+
+
