@@ -340,7 +340,8 @@ optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
 >   A terminal operation. A terminal operation, such as forEach, produces a non-stream result, such as a primitive value (like a double value), a collection, or in the case of forEach, no value at all. In this example, the parameter of the forEach operation is the lambda expression e -> System.out.println(e.getName()), which invokes the method getName on the object e. (The Java runtime and compiler infer that the type of the object e is Person.)  
 
 `java.util.Stream` 은 엘러먼트들의 시퀀스, 하나 혹은 그 이상의 오프레이션들이 수행될 수 있는 것들을 represent 한다.
-Stream 명령들은 intermediate 거나 terminal 이다. 
+Stream operation 들은 intermediate operation 이거나 terminal operation 이다. 
+
 
 
 
