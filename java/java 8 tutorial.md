@@ -214,10 +214,42 @@ num = 3;
 
 람다표현식 내부에서 num 에 값을 쓰는것도 역시 금지된다.
 
-## Accessing fields and static variables
+### Accessing fields and static variables
+
+대조를 이루는 로컬변수들, 인스턴스 필드와 정적 변수들에 대해 우리는 람다 표현식 안에서 대해 read/write 접근을 가지고 있다. 이런 형태는 익명 오브젝트들때부터 알려져 왔다.
+>In constrast to local variables we have both read and write access to instance fields and static variables from within lambda expressions. This behaviour is well known from anonymous objects.(원문)
+
+``` java
+class Lambda4 {
+    static int outerStaticNum;
+    int outerNum;
+
+    void testScopes() {
+        Converter<Integer, String> stringConverter1 = (from) -> {
+            outerNum = 23;
+            return String.valueOf(from);
+        };
+
+        Converter<Integer, String> stringConverter2 = (from) -> {
+            outerStaticNum = 72;
+            return String.valueOf(from);
+        };
+    }
+}
+```
+
+### Accessing Default Interface Methods
+첫번째 섹션의 formula 예제를 기억하는가? 인터페이스 `Formula` 는 각각의 formula 인스턴스들이나 익명의 오브젝트들에서도 액세스 가능한 default method 인  `sqrt` 를 정의 했다. 이것은 람다 표현식과는 동작하지 않는다. 
+
+Default method 들은 람다표현식 안에서는 액세스될 수 없다. 다음의 코드는 컴파일 되지 않는다.
+
+``` java
+Formula formula = (a) -> sqrt( a * 100);
+```
 
 
 
+## Built-in Functional Interfaces
 
 
 
