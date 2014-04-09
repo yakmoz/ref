@@ -1,4 +1,4 @@
-# Java 8 Tutorial
+# Java 8 Tutorial (KOREAN)
 
 아래의 모든 내용은 [Java 8 Tutorial](http://winterbe.com/posts/2014/03/16/java-8-tutorial/) 의 내용을 바탕으로 한다.  
 
@@ -7,6 +7,7 @@
 이 사이트를 알려준 장진우님께 감사드린다.
 
     안그래도 영어가 별루인데 중간중간 졸면서 옮긴게 있어서 ... 아무튼 오역이 있다면 죄송합니다 -ㅅ-;
+    그리고 아무래도 잘 모르는 내용들이다보니 번역하기가 어려워서 원문을 적어놓느것도 있습니다.
 
 ## 번역참고사항
 
@@ -24,7 +25,7 @@
 - Constructor References : 생성자 참조 
 - static variables : 정적 변수
 - instance fields : 인스턴스 필드들 
-- 
+- built-in : 빌트인 
 
 ## Default Method for Interface
 아주 간단히 말하면 인터페이스에 구현이 가능하다.
@@ -250,6 +251,38 @@ Formula formula = (a) -> sqrt( a * 100);
 
 
 ## Built-in Functional Interfaces
+
+JDK 1.8 API 는 많은 빌트인 함수 인터페이스를 가지고 있다. 그중에는 과거의 자바버전에서 부터 알려저온 `Comparator`, `Runnable` 같은게 있다. 이런 존재하는 인터페이스들은 `@FunctionalInterface` 어노테이션을 통해 람다 지원이 가능하도록 확장된다.
+
+그러나 Java 1.8 API 또한 당신의 삶을 좀더 쉽게 만들어줄 새로운 함수 인터페이스로 가득차있다. 
+몇몇 새로운 인트페이스들은 [Google Guava](https://code.google.com/p/guava-libraries/) 라이브러리에서 잘 알려진 것들이다. 이 라이브러리가 친숙하더라도 어떻게 저 인터페이스들이 유용한 메소드 확장들에 의해 확장됐는지 주시해야 한다.
+
+### Predicates
+Predicates 는 단일 아규먼트를 받는 boolean(값) 함수이다. 이 인터페이스는 복합적 논리단어(and,or,negate)의 구성을 위한 다양한 default 메소드들 가지고 있다. 
+
+``` java
+Predicate<String> predicate = (s) -> s.length() > 0;
+
+predicate.test("foo");              // true
+predicate.negate().test("foo");     // false
+
+Predicate<Boolean> nonNull = Objects::nonNull;
+Predicate<Boolean> isNull = Objects::isNull;
+
+Predicate<String> isEmpty = String::isEmpty;
+Predicate<String> isNotEmpty = isEmpty.negate();
+```
+
+### Functions
+Functions 는 단일 아규먼트를 받아 결과를 만들어낸다. Default 메소드들은 다수의 함수들과 함께 엮기 위해 사용될 수 있다. (compose, andThen)
+
+``` java
+Function<String, Integer> toInteger = Integer::valueOf;
+Function<String, String> backToString = toInteger.andThen(String::valueOf);
+
+backToString.apply("123");     // "123"
+```
+
 
 
 
