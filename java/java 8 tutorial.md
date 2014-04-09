@@ -6,6 +6,8 @@
 
 이 사이트를 알려준 장진우님께 감사드린다.
 
+    안그래도 영어가 별루인데 중간중간 졸면서 옮긴게 있어서 ... 아무튼 오역이 있다면 죄송합니다 -ㅅ-;
+
 ## 번역참고사항
 
 - anonymous : 익명 
@@ -17,6 +19,9 @@
 - annotation : 어노테이션 
 - simplified : 간략화 
 - static method : 정적 메소드 
+- References : 참조 
+- method : 메소드 
+- Constructor References : 생성자 참조 
 
 ## Default Method for Interface
 아주 간단히 말하면 인터페이스에 구현이 가능하다.
@@ -119,7 +124,8 @@ Converter<String, Integer> converter = Integer::valueOf;
 Integer converted = converter.convert("123");
 System.out.println(converted);   // 123
 ```
-Java 8 은 :: 를 통해 메소드 참조나 생성을 건너뛰게 할 수 있다. 위의 예제는 정적메소드 참조의 예를 보여준다.  하지만 또한 우리는 오브젝트의 메소드를 참조할 수 있다. 
+
+Java 8 은 `::` 키워드를 통해 메소드나 생성자 참조를 지나치게 할 수 있다. 위의 예제는 정적메소드 참조의 예를 보여준다. 하지만 또한 우리는 오브젝트의 메소드를 참조할 수 있다. 
 
 ``` java
 class Something {
@@ -136,7 +142,7 @@ String converted = converter.convert("Java");
 System.out.println(converted);    // "J" 
 ```
 
-생성자를 위한 :: 키워드를 살펴보자. 다른 생성자들을 가진 예제 빈(bean) 을 정의하자. 
+`::` 키워드가 어떻게 생성자를 대리하는지 살펴보자. 우선 여러 다른 생성자들을 가진 빈을 정의하자.
 
 ``` java
 class Person {
@@ -151,6 +157,16 @@ class Person {
     }
 }
 ```
+다음, 새로운 사람들을 생성하기 위한 person factory 인터페이스를 정의 한다. 
+
+``` java
+interface PersonFactory<P extends Person> {
+    P create(String firstName, String lastName);
+}
+```
+
+factory 를 직접 구현하는 대신, 생성자 참조를 통해서 모든걸 붙인다.(glue)
+
 
 
 
