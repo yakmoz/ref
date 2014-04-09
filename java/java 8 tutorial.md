@@ -1,8 +1,8 @@
-# java 8 
+# Java 8 Tutorial
 
-아래의 모든 내용은 [여기](http://winterbe.com/posts/2014/03/16/java-8-tutorial/) 의 내용을 적은것이다. 
+아래의 모든 내용은 [Java 8 Tutorial](http://winterbe.com/posts/2014/03/16/java-8-tutorial/) 의 내용을 바탕으로 한다.  
 
-목표는 빠른 파악의 레벨이므로 원문에 있는 나름 심오한 내용등은 빠질 수 있다. 그건 원문을 보고 따로 학습하길 바란다. 작업은 2014년 4월 9일 12시부터 시작한다.(사실 이때부터 원문을 읽고 있다)
+목표는 빠른 파악의 레벨이므로 원문에 있는 나름 심오한 내용등은 빠질 수 있다. 그건 원문을 보고 따로 학습하길 바란다. 작업은 2014년 4월 9일 12시부터 시작한다.(이때부터 원문을 읽고 있다)
 
 이 사이트를 알려준 장진우님께 감사드린다.
 
@@ -15,6 +15,8 @@
 - syntax : 문법  
 - functional interface : 함수 인터페이스 
 - annotation : 어노테이션 
+- simplified : 간략화 
+- static method : 정적 메소드 
 
 ## Default Method for Interface
 아주 간단히 말하면 인터페이스에 구현이 가능하다.
@@ -106,6 +108,51 @@ Integer converted = converter.convert("123");
 System.out.println(converted);    // 123
 ```
 
-만약 `@FunctionalInterface` 를 제거한다면 이 소스는 valid 하다는걸 기억하라.
+만약 `@FunctionalInterface` 를 뺀다면 이 소스는 valid 하다는걸 기억하라.
+
+## Method and Constructor References
+
+앞의 코드는 정적 메소드 참조를 통해 좀더 간략화 될 수 있다. 
+
+``` java
+Converter<String, Integer> converter = Integer::valueOf;
+Integer converted = converter.convert("123");
+System.out.println(converted);   // 123
+```
+Java 8 은 :: 를 통해 메소드 참조나 생성을 건너뛰게 할 수 있다. 위의 예제는 정적메소드 참조의 예를 보여준다.  하지만 또한 우리는 오브젝트의 메소드를 참조할 수 있다. 
+
+``` java
+class Something {
+    String startsWith(String s) {
+        return String.valueOf(s.charAt(0));
+    }
+}
+```
+
+``` java
+Something something = new Something();
+Converter<String, String> converter = something::startsWith;
+String converted = converter.convert("Java");
+System.out.println(converted);    // "J" 
+```
+
+생성자를 위한 :: 키워드를 살펴보자. 다른 생성자들을 가진 예제 빈(bean) 을 정의하자. 
+
+``` java
+class Person {
+    String firstName;
+    String lastName;
+
+    Person() {}
+
+    Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+}
+```
+
+
+
 
 
