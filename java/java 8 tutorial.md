@@ -13,6 +13,8 @@
 - expressions : 표현식
 - lambda expressions : 람다표현식 
 - syntax : 문법  
+- functional interface : 함수 인터페이스 
+- annotation : 어노테이션 
 
 ## Default Method for Interface
 아주 간단히 말하면 인터페이스에 구현이 가능하다.
@@ -43,7 +45,7 @@ formula.sqrt(16);           // 4.0
 
 실제 이 인터페이스를 이용할때는 default 를 적용한 sqrt 를 구현하지 않아도 된다. 
 
-# Lambda expressions
+## Lambda expressions
 
 아래는 이전버전에서의 자바 문장 sort 예제이다. 
 
@@ -81,8 +83,31 @@ Collections.sort(names, (a, b) -> b.compareTo(a));
 
 java 컴파일러는 파라미터의 타입을 추측하기에 String 을 생략가능하다. 
 
+## Functional Interface
+어떻게 람다표현식이 자바 타입 시스템에 맞춰질까? 각각의 람다는 인터페이스에 지정된 `타입`에 해당한다.  functional interface(함수인터페이스) 라고 불리려면 반드시 하나의 `추상메소드`의 선언을 가지고 있어야 한다. 
+그 `타입`의 각 람다 표현식은 위에서 말한 `추상메소드`와 매치된다.
 
+당신의 함수인터페이스에 default 를 붙이는것은 자유이다. default 를 붙인 메소드는 이후 더이상 추상이 아니다.
 
+하나의 추상메소드만 담는 
 
+우리는 오직 하나의 추상메소드만 담고 있는 긴 형태의 임의의 람다표현식 인터페이스를 사용할 수 있다. 당신의 인터페이스가 필요조건을 충족하기 위해서는 @FunctionalInterface 어노테이션을 붙여야 한다.
+
+컴파일러는 이 어노테이션을 인지하며, 인터페이스에 추가 추상메소드를 선언하려고 하면 즉시 컴파일러 에러로 처리한다. 
+
+``` java
+@FunctionalInterface
+interface Converter<F, T> {
+    T convert(F from);
+}
+```
+
+``` java
+Converter<String, Integer> converter = (from) -> Integer.valueOf(from);
+Integer converted = converter.convert("123");
+System.out.println(converted);    // 123
+```
+
+만약 `@FunctionalInterface` 를 제거한다면 이 소스는 valid 하다는걸 기억하라.
 
 
