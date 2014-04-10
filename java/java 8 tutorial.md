@@ -372,8 +372,108 @@ Java 8 에서는 `Collection.stream()` 나 `Collection.parallelStream()` 를 호
 
 ### Filter
 Filter 는 stream의 모든 elements 들을 거르기위해 단적짓는것을(predicate)하는것을 수용한다. 이 연산은 결과의 또다른 stream 연산(e.g foreach)을 호출할수 있도록 해주는 intermediate 이다.(역주. 중간자?)
-ForEach 는 필터된 stream 에서 각각의 element 를 위해 소비자가 수행되도록 수락한다. ForEach 는 terminal operation 이다. 이것은 `void` 이므로 또다른 또다른 stream operation 을 호출할 수 없다.
+ForEach 는 필터된 stream 에서 각각의 element 를 위해 소비자가 수행되도록 수락한다. ForEach 는 terminal operation 이다. 이것은 `void` 이므로 또다른 stream operation 을 호출할 수 없다.
 
- 
+``` java
+stringCollection
+    .stream()
+    .filter((s) -> s.startsWith("a"))
+    .forEach(System.out::println);
+
+// "aaa2", "aaa1"
+```
+
+### Sorted
+Sorted 는 stream 의 sorted view 를 리턴해주는 intermediate operation 이다. 만약 임의의 `Comparator` 를 넘겨주지 않는다면 natural order 를 기준으로 elements 들이 정렬된다.
+
+``` java
+stringCollection
+    .stream()
+    .sorted()
+    .filter((s) -> s.startsWith("a"))
+    .forEach(System.out::println);
+
+// "aaa1", "aaa2"
+```
+
+`sorted`는 돌려준 collection 의 순서의 조작이 없는 stream에 대한 sorted view를 생성할 뿐이라는걸 잊지마라 
+
+``` java
+System.out.println(stringCollection);
+// ddd2, aaa2, bbb1, aaa1, bbb3, ccc, bbb2, ddd1
+```
+
+### Map
+intermediate operation 인 `map`은 주어진 함수를 통해 각각의 element 를 또다른 오브젝트로 변환한다. 다음에 나오는 예제는 각각의 문자를 대문자로 변환한다. 허나 물론 또다른 타입으로 각각의 오브젝트를 변환하기 위해 `map` 을 사용할 수 도 있다. 생성되는 stream 제네릭 타입은 map 에 넘긴 함수의 제네릭타입에 따른다. 
+
+``` java
+stringCollection
+    .stream()
+    .map(String::toUpperCase)
+    .sorted((a, b) -> b.compareTo(a))
+    .forEach(System.out::println);
+
+// "DDD2", "DDD1", "CCC", "BBB3", "BBB2", "AAA2", "AAA1"
+```
+
+### Match
+다양한 매칭 연산들은 정확히 결정된 stream 매치인지를 체크하는데 사용된다. 이런 모든 연산들은 terminal 이고 boolean 결과를 리턴한다.
+
+``` java
+boolean anyStartsWithA =
+    stringCollection
+        .stream()
+        .anyMatch((s) -> s.startsWith("a"));
+
+System.out.println(anyStartsWithA);      // true
+
+boolean allStartsWithA =
+    stringCollection
+        .stream()
+        .allMatch((s) -> s.startsWith("a"));
+
+System.out.println(allStartsWithA);      // false
+
+boolean noneStartsWithZ =
+    stringCollection
+        .stream()
+        .noneMatch((s) -> s.startsWith("z"));
+
+System.out.println(noneStartsWithZ);      // true
+```
+
+### Count
+Count 는 stream의 다수의 element 들을 `long` 으로 돌려주는 terminal operation이다. 
+``` java
+long startsWithB =
+    stringCollection
+        .stream()
+        .filter((s) -> s.startsWith("b"))
+        .count();
+
+System.out.println(startsWithB);    // 3
+```
+
+### Reduce
+이 terminal operation 은 주어진 함수로 스트림의 elements 를 줄여주는 작업을 수행한다. 결과는 줄어든 값을 보유한 `Optional` 이다. 
+
+``` java
+Optional<String> reduced =
+    stringCollection
+        .stream()
+        .sorted()
+        .reduce((s1, s2) -> s1 + "#" + s2);
+
+reduced.ifPresent(System.out::println);
+// "aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2"
+```
+
+## Parallel Streams
+
+
+
+
+
+
 
 
