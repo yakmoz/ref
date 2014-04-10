@@ -368,5 +368,12 @@ stringCollection.add("bbb2");
 stringCollection.add("ddd1");
 ```
 
+Java 8 에서는 `Collection.stream()` 나 `Collection.parallelStream()` 를 호출함으로써 쉽게 streams 를 생성할 수 있도록 확장되었다. 다음에 나올 섹션에서는 가장 흔한 stream 연산을 설명한다.
+
+### Filter
+Filter 는 stream의 모든 elements 들을 거르기위해 단적짓는것을(predicate)하는것을 수용한다. 이 연산은 결과의 또다른 stream 연산(e.g foreach)을 호출할수 있도록 해주는 intermediate 이다.(역주. 중간자?)
+ForEach 는 필터된 stream 에서 각각의 element 를 위해 소비자가 수행되도록 수락한다. ForEach 는 terminal operation 이다. 이것은 `void` 이므로 또다른 또다른 stream operation 을 호출할 수 없다.
+
+ 
 
 
