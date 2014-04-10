@@ -348,13 +348,25 @@ optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
 > STREAM API - TERMINAL OPERATOR
 > - Stream 을 받아서 최종 결과 계산 
 
-`java.util.Stream` 은 엘러먼트들의 시퀀스, 하나 혹은 그 이상의 오프레이션들이 수행될 수 있는 것들을 represent 한다.
-Stream operation 들은 intermediate operation 이거나 terminal operation 이다. 
+`java.util.Stream` 은 하나 혹은 그 이상의 연산(operations)이 수행될 수 있는 elements 들의 시퀀스로 represent 된다.
 
+Stream 연산(operation) 들은 intermediate operation 이거나 terminal operation 이다. terminal operations 들이 명확한 타입의 값을 리턴해주는 동안, intermediate operations 은 steam 그 자신을 리턴하므로, 한줄로 멀티 메소드호출을 짤 수 있다.  
 
+Streams 는 소스로 생성된다. 예로 `java.util.Collection` 은 list 나 set 나 마찬가지다.(맵은 지원하지 않는다) Steam 연산은 시퀀셜하게 실행되거나 병렬적으로 실행될 수 있다. 
 
+시퀀셜 스트림이 동작하는 형태를 처음으로 살펴보자. 문자열의 리스트로 예제소스를 생성하자.
 
-
+``` java
+List<String> stringCollection = new ArrayList<>();
+stringCollection.add("ddd2");
+stringCollection.add("aaa2");
+stringCollection.add("bbb1");
+stringCollection.add("aaa1");
+stringCollection.add("bbb3");
+stringCollection.add("ccc");
+stringCollection.add("bbb2");
+stringCollection.add("ddd1");
+```
 
 
 
