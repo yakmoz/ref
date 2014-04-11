@@ -718,9 +718,67 @@ System.out.println(string);     // Nov 03, 2014 - 07:13
 
 패턴 문법의 자세한 내용은 [여기](http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html) 를 읽어봐라.
 
+## Annotations
+java 8 의 Annotations 는 반복될 수 있다. 바로 예제로 확인해보자.
+
+우선, 실제 어노테이션들의 배열로 을 가진 래퍼 어노테이션을 정의한다.
+
+``` java
+@interface Hints {
+    Hint[] value();
+}
+
+@Repeatable(Hints.class)
+@interface Hint {
+    String value();
+}
+```
+
+java 8 은 @Repeatable 어노테이션을 선언함으로써 같은 타입의 어노테이션들을 동시에 사용 가능하게 해준다. 
 
 
+변형 1 : 컨테이너 어노테이션의 이용(구식 형태)
+``` java
+@Hints({@Hint("hint1"), @Hint("hint2")})
+class Person {}
+```
 
+번형 2: 반복적인 어노테이션의 이용 (새로운 형태)
+``` java
+@Hint("hint1")
+@Hint("hint2")
+class Person {}
+```
+
+번형2를 사용하면 자바 컴파일러는 암묵적으로 @Hints 어노테이션을 설정한다.
+이것은 reflection 을 통해 어노테이션 정보를 읽기 위해 중용하다.
+
+``` java
+Hint hint = Person.class.getAnnotation(Hint.class);
+System.out.println(hint);                   // null
+
+Hints hints1 = Person.class.getAnnotation(Hints.class);
+System.out.println(hints1.value().length);  // 2
+
+Hint[] hints2 = Person.class.getAnnotationsByType(Hint.class);
+System.out.println(hints2.length);          // 2
+```
+
+우리가 `Person` 클래스에 @Hints 를 선언하지 않아도 `getAnnotation(Hints.class)`를 통해 여전히 읽을 수 있다. 그러나 @Hint 어노테이션 적용된 모든 것에 대해 직접액세스 가능하게 하는 `getAnnotationsByType` 어노테이션이 좀 더 편리하다.
+
+게다가 java 8 에서의 어노테이션 이용은 2개의 새로운 타겟으로 확장됐다.
+``` java
+@Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+@interface MyAnnotation {}
+```
+
+## That's it
+
+Java 8 에 대한 나의 프로그래밍 가이드는 여기서 끝이다. JDK 8 API의 새로운 클래스들이나 특징들에 대해서 좀더 알고 싶다면 [다음의 글](http://winterbe.com/posts/2014/03/29/jdk8-api-explorer/)을 읽어라.  몇개 언급하자면 `Arrays.parallelSort`, `StampedLock` 그리고  `CompletableFuture` 같은 JDK 8 의 새로운 클래스들이나 숨겨진 보물들일 찾는데 도움을 줄 것이다. 
+
+나는 최근에 [JAVA 8 Nashorn Tutorial](http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/) 를 출간했다. Nashorn Javascript Engine 은 JVM 에서 자바스크립트 코드를 네이트브하게 실행 할 수 있게 해준다.
+
+나는 이 가이드가 당신에게 도움이됐고 즐겁게 읽었기를 바란다. 튜토리어 샘플들의 풀 코드는 [GitHub](https://github.com/winterbe/java8-tutorial) 에 있다. [저장소를 포크](https://github.com/winterbe/java8-tutorial/fork) 하고 싶거나 피드백을 주고 싶다면 [트위터](https://twitter.com/benontherun) 를통해서 연락주면 된다.
 
 
 
