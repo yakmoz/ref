@@ -470,6 +470,99 @@ reduced.ifPresent(System.out::println);
 
 ## Parallel Streams
 
+위에서 언급한 streams 는 시퀀셜하거나 패러럴(병렬)이 될 수 있다. 시퀀셜 streams 에서의 연산은 병렬 streams 에서의 연산이 멀티스레드에서 동시에 수행되는 동안 싱글스레드에서 수행된다. 
+
+다음에 나오는 예제는 병렬 streams 를 이용해서 성능을 올리는게 얼마나 쉬운지 보여주고 있다.
+
+우선 유니크한 elements 들의 커다란 리스트를 생성한다.
+
+
+``` java
+int max = 1000000;
+List<String> values = new ArrayList<>(max);
+for (int i = 0; i < max; i++) {
+    UUID uuid = UUID.randomUUID();
+    values.add(uuid.toString());
+}
+```
+
+이제 이 콜렉션의 stream 을 정렬하는데 걸리는 시간을 측정하자.
+
+### Sequential Sort
+``` java
+long t0 = System.nanoTime();
+
+long count = values.stream().sorted().count();
+System.out.println(count);
+
+long t1 = System.nanoTime();
+
+long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+System.out.println(String.format("sequential sort took: %d ms", millis));
+
+// sequential sort took: 899 ms
+```
+
+### Parallel Sort
+``` java
+long t0 = System.nanoTime();
+
+long count = values.parallelStream().sorted().count();
+System.out.println(count);
+
+long t1 = System.nanoTime();
+
+long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+System.out.println(String.format("parallel sort took: %d ms", millis));
+
+// parallel sort took: 472 ms
+```
+
+두 코드를 봐서는 거의 비슷하나 parallel 정렬은 대략 50% 정도 빠르다. 해야할것은 stream() 을 parallelStream() 으로 바꾸는게 전부이다.
+
+## Map
+
+map은 stream 을 지원하지 않는다고 앞에서 언급했다. 이런일 처리를 위해 map 대신 이제 다양한 새롭고 유용한 방법(methods)들을 제공한다.
+
+``` java
+Map<Integer, String> map = new HashMap<>();
+
+for (int i = 0; i < 10; i++) {
+    map.putIfAbsent(i, "val" + i);
+}
+
+map.forEach((id, val) -> System.out.println
+```
+
+`putIfAbsent` 는 null 체크를 추가하는것을 방지해준다. 
+`forEach` 는 map 의 각각의 값을 처리해줄 있도록 해준다.
+
+다음의 예는 유용한 함수를 통해 코드가 어떻게 해석되는지 보여준다.
+
+``` java
+map.computeIfPresent(3, (num, val) -> val + num);
+map.get(3);             // val33
+
+map.computeIfPresent(9, (num, val) -> null);
+map.containsKey(9);     // false
+
+map.computeIfAbsent(23, num -> "val" + num);
+map.containsKey(23);    // true
+
+map.computeIfAbsent(3, num -> "bam");
+map.get(3);             // val33
+```
+
+다음은, 주어진 키와 키에 맵핑된 값에 대해서만 삭제하는 방법을 보여준다. 
+
+``` java
+map.remove(3, "val3");
+map.get(3);             // val33
+
+map.remove(3, "val33");
+map.get(3);             // null
+```
+
 
 
 
