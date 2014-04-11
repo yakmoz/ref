@@ -649,7 +649,7 @@ System.out.println(leetTime);   // 13:37
 
 ### LocalDate
 
-LocalDate 는 2014-03-11 같은 특정 날짜를 표현한다. 이값은 불변이고, 아나로그를 LocalTime 으로의 작업을 한다. 샘플 예제는 어떻게 새 날짜를 계산하는지 혹은 날짜,월 또는 년도를 분리하는지를 보여준다. 각각의 조작은 새로운 인스턴스를 생성한다는걸 잊지 마라. 
+LocalDate 는 2014-03-11 같은 특정 날짜를 표현한다. 이값은 불변이고, 아나로그를 LocalTime 으로의 처리이다. 샘플 예제는 어떻게 새 날짜를 계산하는지 혹은 날짜,월 또는 년도를 분리하는지를 보여준다. 각각의 조작은 새로운 인스턴스를 생성한다는걸 잊지 마라. 
 
 ``` java
 LocalDate today = LocalDate.now();
@@ -674,6 +674,51 @@ System.out.println(xmas);   // 2014-12-24
 ```
 
 ### LocalDateTime
+
+LocalDateTime 는 date-time 을 표현한다. 이것은 위의 섹션에서 봤던 date 와 time 을 하나의 인스턴스 안에 합치는 것이다. `LocalDateTime` 는 불변이고 LocalTime 과 LocalDate 와 유사하게 동작한다. 우리는 date-time 으로 부터 정확한 필드를 검색하기 위한 수단으로 이용할 수 있다.
+
+``` java
+LocalDateTime sylvester = LocalDateTime.of(2014, Month.DECEMBER, 31, 23, 59, 59);
+
+DayOfWeek dayOfWeek = sylvester.getDayOfWeek();
+System.out.println(dayOfWeek);      // WEDNESDAY
+
+Month month = sylvester.getMonth();
+System.out.println(month);          // DECEMBER
+
+long minuteOfDay = sylvester.getLong(ChronoField.MINUTE_OF_DAY);
+System.out.println(minuteOfDay);    // 1439
+```
+
+timezone 의 추가적인 정보로 instant 로 컨버트 될 수 있다. Instants 는 기존의 `java.util.Date` 타입으로 쉽게 컨버트 된다.  
+
+``` java
+Instant instant = sylvester
+        .atZone(ZoneId.systemDefault())
+        .toInstant();
+
+Date legacyDate = Date.from(instant);
+System.out.println(legacyDate);     // Wed Dec 31 23:59:59 CET 2014
+```
+
+형식을 갖춘(Formatting)) date-times 는 형식을 갖춘 date 와 time 와 유사하다. 
+pre-defined formats 을 사용하는 대신 우리는 custom 패턴들로 부터 formatter 를 생성할 수 있다.
+
+``` java
+DateTimeFormatter formatter =
+    DateTimeFormatter
+        .ofPattern("MMM dd, yyyy - HH:mm");
+
+LocalDateTime parsed = LocalDateTime.parse("Nov 03, 2014 - 07:13", formatter);
+String string = formatter.format(parsed);
+System.out.println(string);     // Nov 03, 2014 - 07:13
+```
+
+`java.text.NumberFormat` 와 달리 새로운 `DateTimeFormatter` 는 스레드 세이프하고 불변이다.
+
+패턴 문법의 자세한 내용은 [여기](http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html) 를 읽어봐라.
+
+
 
 
 
