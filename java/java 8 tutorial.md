@@ -617,10 +617,63 @@ System.out.println(zone2.getRules());
 
 ### LocalTime
 
+LocalTime 은 10pm 이나 17:30:15 처럼 timezone 없이 시간을 표현한다. 다음은 위에 정의된 timezone을 위한 두개의 로컬시간을 만드는 예제이다. 그러면 우리는 두 시간을 비교하고 두시간 간에 시간과 분이 얼마나 다른지 계산한다.
 
+``` java
+LocalTime now1 = LocalTime.now(zone1);
+LocalTime now2 = LocalTime.now(zone2);
 
+System.out.println(now1.isBefore(now2));  // false
 
+long hoursBetween = ChronoUnit.HOURS.between(now1, now2);
+long minutesBetween = ChronoUnit.MINUTES.between(now1, now2);
 
+System.out.println(hoursBetween);       // -3
+System.out.println(minutesBetween);     // -239
+```
+
+LocalTime 은 시간 문자열 파싱을 포함한, 새로운 인스턴스의 생성을 간략화 하기 위한 다양한 factory method 와 함께 제공된다.
+
+``` java
+LocalTime late = LocalTime.of(23, 59, 59);
+System.out.println(late);       // 23:59:59
+
+DateTimeFormatter germanFormatter =
+    DateTimeFormatter
+        .ofLocalizedTime(FormatStyle.SHORT)
+        .withLocale(Locale.GERMAN);
+
+LocalTime leetTime = LocalTime.parse("13:37", germanFormatter);
+System.out.println(leetTime);   // 13:37
+```
+
+### LocalDate
+
+LocalDate 는 2014-03-11 같은 특정 날짜를 표현한다. 이값은 불변이고, 아나로그를 LocalTime 으로의 작업을 한다. 샘플 예제는 어떻게 새 날짜를 계산하는지 혹은 날짜,월 또는 년도를 분리하는지를 보여준다. 각각의 조작은 새로운 인스턴스를 생성한다는걸 잊지 마라. 
+
+``` java
+LocalDate today = LocalDate.now();
+LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
+LocalDate yesterday = tomorrow.minusDays(2);
+
+LocalDate independenceDay = LocalDate.of(2014, Month.JULY, 4);
+DayOfWeek dayOfWeek = independenceDay.getDayOfWeek();
+System.out.println(dayOfWeek);    // FRIDAY
+```
+
+문자에서 부터 LocalDate 를 파싱하는것은 LocalTime 을 파싱하는것처럼 간단하다.
+
+``` java
+DateTimeFormatter germanFormatter =
+    DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.MEDIUM)
+        .withLocale(Locale.GERMAN);
+
+LocalDate xmas = LocalDate.parse("24.12.2014", germanFormatter);
+System.out.println(xmas);   // 2014-12-24
+```
+
+### LocalDateTime
 
 
 
