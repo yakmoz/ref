@@ -563,6 +563,63 @@ map.remove(3, "val33");
 map.get(3);             // null
 ```
 
+또 다른 유용한 메소드로
+
+``` java
+map.getOrDefault(42, "not found");  // not found
+```
+
+map 의 전체 병합은 아주 쉽다.
+
+``` java
+map.merge(9, "val9", (value, newValue) -> value.concat(newValue));
+map.get(9);             // val9
+
+map.merge(9, "concat", (value, newValue) -> value.concat(newValue));
+map.get(9);             // val9concat
+```
+
+키가 엔트리에 존재하지 않을경우 키/값 을 map에 넣거나 기존의 값을 바꾸기 위해 머지 함수가 호출될 것이다. 
+
+
+## Date API
+
+java 8 은 완전히 새로운 date 와 time API 를 `java.time` 패키지에 포함하고 있다.
+새로운 Date API 는 [Joda-Time](http://www.joda.org/joda-time/) 라이브러리와 유사하나 같지는 않다. 다음의 예제는 이 새로운 API 의 중요내용을 대부분 포함하고 있다.
+
+### Clock
+Clock 는 현재의 날짜와 시간을 조회할수 있게 해준다. Clock 은 timezone 을 인지하고, `System.currentTimeMillis()` 를 사용하는 대신, 현재의 milliseconds 를 가져온다. 타임라인의 순간적인 지점(point) 도 class `Instant` 로 표현된다. Instants 는 기존의 `java.util.Date` 오브젝트를 생성하기 위해 사용될 수 있다. 
+
+``` java
+Clock clock = Clock.systemDefaultZone();
+long millis = clock.millis();
+
+Instant instant = clock.instant();
+Date legacyDate = Date.from(instant);   // legacy java.util.Date
+```
+
+### Timezones
+
+Timezones 는 `ZoneId` 로 표현된다. static factory method 로 쉽게 조회될 수 있다. Timezones 는 offset 을 정의하는데 이는 instants(역주 앞에서 얘기했던 Instant) 와 로컬의 날짜와 시간을 서로 컨버팅하기위해 중요하다. 
+
+``` java
+System.out.println(ZoneId.getAvailableZoneIds());
+// prints all available timezone ids
+
+ZoneId zone1 = ZoneId.of("Europe/Berlin");
+ZoneId zone2 = ZoneId.of("Brazil/East");
+System.out.println(zone1.getRules());
+System.out.println(zone2.getRules());
+
+// ZoneRules[currentStandardOffset=+01:00]
+// ZoneRules[currentStandardOffset=-03:00]
+```
+
+### LocalTime
+
+
+
+
 
 
 
