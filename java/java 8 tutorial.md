@@ -105,11 +105,11 @@ java 컴파일러는 파라미터의 타입을 추측하기에 타입생략이 �
 
 ## Functional Interface
 어떻게 람다표현식이 자바 타입 시스템에 맞춰질까? 각각의 람다는 인터페이스에 지정된 `타입`에 해당한다.  functional interface(함수인터페이스) 라고 불리려면 반드시 하나의 `추상메소드`의 선언을 가지고 있어야 한다. 
-그 `타입`의 각 람다 표현식은 위에서 말한 `추상메소드`와 매치된다.
+그 `타입`의 각각의 람다 표현식은 위에서 말한 `추상메소드`와 매치된다.
 
 당신의 함수인터페이스에 default 를 붙이는것은 자유이다. default 를 붙인 메소드는 이후 더이상 추상이 아니다.
 
-우리는 오직 하나의 추상메소드만 담고 있는 긴 형태의 임의의 람다표현식 인터페이스를 사용할 수 있다. 당신의 인터페이스가 필요조건을 충족하기 위해서는 @FunctionalInterface 어노테이션을 붙여야 한다.
+우리는 오직 하나의 추상메소드만 담고 있는 긴 형태의 임의의 람다표현식 인터페이스를 사용할 수 있다. 당신의 인터페이스가 필요조건을 충족하기 위해서는 `@FunctionalInterface` 어노테이션을 붙여야 한다.
 
 컴파일러는 이 어노테이션을 인지하며, 인터페이스에 추가 추상메소드를 선언하려고 하면 즉시 컴파일러 에러로 처리한다. 
 
@@ -138,7 +138,7 @@ Integer converted = converter.convert("123");
 System.out.println(converted);   // 123
 ```
 
-Java 8 은 `::` 키워드를 통해 메소드나 생성자 참조를 지나치게 할 수 있다. 위의 예제는 정적메소드 참조의 예를 보여준다. 하지만 또한 우리는 오브젝트의 메소드를 참조할 수 있다. 
+Java 8 은 `::` 키워드를 통해 메소드나 생성자의 참조를 지나치게 할 수 있다. 위의 예제는 정적메소드 참조의 예를 보여준다. 하지만 또한 우리는 오브젝트의 메소드를 참조할 수 있다. 
 
 ``` java
 class Something {
@@ -189,7 +189,7 @@ Person person = personFactory.create("Peter", "Parker");
 
 ## Lambda Scopes 
 
-람다 표현식으로 outer scope 의 변수들을 액세스 하는것은 익명 오브젝트에게 하는것과도 유사하다. 지역 outer scope 에서도 final 변수들뿐만 아니라 인스턴스 필드들과 정적 변수들 또한 액세스 가능하다. 
+람다 표현식으로 outer scope 의 변수들을 액세스 하는것은 익명 오브젝트와 유사하다. 지역 outer scope 에서도 final 변수들뿐만 아니라 인스턴스 필드들과 정적 변수들 또한 액세스 가능하다. 
 
 ### Accessing local variables
 우리는 람다표현식의 outer scope 를 통해 final 로컬 변수들을 읽을 수 있다.
@@ -202,7 +202,7 @@ Converter<Integer, String> stringConverter =
 stringConverter.convert(2);     // 3
 ```
 
-그러나 익명 오브젝트들에게는 변수 `num` 은 `final` 로 선언될 필요가 없다는점은 다르다.
+그러나 익명 오브젝트들에게는 변수 `num` 은 final로 선언될 필요가 없다는점은 다르다.
 이 코드또한 valid 하다.
 
 ``` java
@@ -213,20 +213,20 @@ Converter<Integer, String> stringConverter =
 stringConverter.convert(2);     // 3
 ```
 
-그러나 `num` 은 반드시 코드가 컴파일 되기 위해 암묵적으로 fianl 이어야 한다. 다음의 코드는 컴파일 되지 않는다.
+그러나 `num` 은 반드시 코드가 컴파일 되기 위해 암묵적으로 fianl 이어야 한다. 다음의 코드는 컴파일 되지 않는다. 
 
 ``` java
 int num = 1;
 Converter<Integer, String> stringConverter =
         (from) -> String.valueOf(from + num);
-num = 3;
+num = 3;    // 역주, 암묵적으로 final 이므로 대입안됨 
 ```
 
 람다표현식 내부에서 num 에 값을 쓰는것도 역시 금지된다.
 
 ### Accessing fields and static variables
 
-대조를 이루는 로컬변수들, 인스턴스 필드와 정적 변수들에 대해 우리는 람다 표현식 안에서 대해 read/write 접근을 가지고 있다. 이런 형태는 익명 오브젝트들때부터 알려져 왔다.
+대조를 이루는 로컬변수들, 인스턴스 필드와 정적 변수들에 대해 우리는 람다 표현식 안에서 대해 read/write 접근을 가지고 있다. 이런 형태는 익명 오브젝트들때부터 알려져 온것이다.
 >In constrast to local variables we have both read and write access to instance fields and static variables from within lambda expressions. This behaviour is well known from anonymous objects.(원문)
 
 ``` java
@@ -251,7 +251,7 @@ class Lambda4 {
 ### Accessing Default Interface Methods
 첫번째 섹션의 formula 예제를 기억하는가? 인터페이스 `Formula` 는 각각의 formula 인스턴스들이나 익명의 오브젝트들에서도 액세스 가능한 default method 인  `sqrt` 를 정의 했다. 이것은 람다 표현식과는 동작하지 않는다. 
 
-Default method 들은 람다표현식 안에서는 액세스될 수 없다. 다음의 코드는 컴파일 되지 않는다.
+Default method 들은 람다표현식 안에서는 액세스될 수 **없다.** 다음의 코드는 컴파일 되지 않는다.
 
 ``` java
 Formula formula = (a) -> sqrt( a * 100);
