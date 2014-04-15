@@ -77,7 +77,9 @@ Collections.sort(names, new Comparator<String>() {
     }
 });
 ```
-위와 같은 `Collections.sort`의 구현형태는 익명 `Compatator`를 빈번히 만들어야 한다. 
+
+스태틱 유틸리티 메소드인 `Collections.sort` 는 정렬을 위해 list 와 그 list 를 정렬할 comparator 를 받아야 한다. 위와 같은 `Collections.sort`의 구현형태는 익명 `Compatator`를 빈번히 만들어야 한다. 
+
 
 이런 익명의 오브젝트를 만드는것 대신 Java 8 은 람다표현식 같은 짧은 문법 이 제공한다. 
 
@@ -99,7 +101,7 @@ Collections.sort(names, (String a, String b) -> b.compareTo(a));
 Collections.sort(names, (a, b) -> b.compareTo(a));
 ```
 
-java 컴파일러는 파라미터의 타입을 추측하기에 String 을 생략가능하다. 
+java 컴파일러는 파라미터의 타입을 추측하기에 타입생략이 가능하다. 람다 표현식이 이용되는 형태를 좀더 살펴보자.
 
 ## Functional Interface
 어떻게 람다표현식이 자바 타입 시스템에 맞춰질까? 각각의 람다는 인터페이스에 지정된 `타입`에 해당한다.  functional interface(함수인터페이스) 라고 불리려면 반드시 하나의 `추상메소드`의 선언을 가지고 있어야 한다. 
