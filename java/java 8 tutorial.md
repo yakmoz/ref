@@ -10,8 +10,7 @@
     그리고 아무래도 잘 모르는 내용들이다보니 번역하기가 어려워서 원문을 적어놓느것도 있습니다.
     흐음... 지금 당장봐도 오역이 있는것 같군요. 휴... 시간이 걸리겠지만 업데이트해보도록 하겠습니다.
     완성도가 올라가기 전까지는 참고용으로만 쓰시기 바랍니다. 
-    
-    method 에 대한 번역 실수는 빠른시간내에 바로잡겠습니다. 
+    method 에 대한 번역 오류는 빠른시간에 에 정정하겠습니다. 
 
 ## 번역참고사항
 
@@ -31,8 +30,14 @@
 - instance fields : 인스턴스 필드들 
 - built-in : 빌트인 
 
+# Java 8 tutorial 
+
+소개글 생략
+
 ## Default Method for Interface
-아주 간단히 말하면 인터페이스에 구현이 가능하다.
+Java 8 은 default 키워드를 이용함으로써 비-추상 메소드 를 인터페이스에 구현가능하게 해준다.
+Extension method 라고하며 여기 우리의 첫 예제가 있다.
+
 ``` java
 interface Formula {
     double calculate(int a);
@@ -42,10 +47,8 @@ interface Formula {
     }
 }
 ```
+인터페이스 `Formula` 의 추상 메소드 `calculate` 를 제외하고는 `sqrt` 메소드는 default 가 정의되어있다. 실제 클래스는 구현해야할 추상메소드 `calculate`만 갖는다. 디폴트 메소드인 `sqrt` 는 그냥 바로 쓸 수 있다.
 
-위에 `default` 라는 키워드가 있는데 이 키워드를 적용하면 비추상 메소드 구현이 가능해진다. Extension method 라고도 한단다.
-
-아래는 구현이다.
 ``` java
 Formula formula = new Formula() {
     @Override
@@ -58,7 +61,7 @@ formula.calculate(100);     // 100.0
 formula.sqrt(16);           // 4.0
 ```
 
-실제 이 인터페이스를 이용할때는 default 를 적용한 sqrt 를 구현하지 않아도 된다. 
+formula 는 익명 형태로 구현되어있다. `sqrt(a*100)` 같은 간단한 계산을 위한 코드 6줄이 있다. 다음섹션에서 보겠지만 Java 8 에서 싱글 메소드 오브젝트를 구현하는 근사한 방법이 있다. 
 
 ## Lambda expressions
 
