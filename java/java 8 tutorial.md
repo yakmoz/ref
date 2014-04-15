@@ -263,11 +263,11 @@ Formula formula = (a) -> sqrt( a * 100);
 
 JDK 1.8 API 는 많은 빌트인 함수 인터페이스를 가지고 있다. 그중에는 과거의 자바버전에서 부터 알려저온 `Comparator`, `Runnable` 같은게 있다. 이런 존재하는 인터페이스들은 `@FunctionalInterface` 어노테이션을 통해 람다 지원이 가능하도록 확장된다.
 
-그러나 Java 1.8 API 또한 당신의 삶을 좀더 쉽게 만들어줄 새로운 함수 인터페이스로 가득차있다. 
+그러나 Java 8 API 또한 당신의 삶을 좀더 쉽게 만들어줄 새로운 함수 인터페이스로 가득차있다. 
 몇몇 새로운 인트페이스들은 [Google Guava](https://code.google.com/p/guava-libraries/) 라이브러리에서 잘 알려진 것들이다. 이 라이브러리가 친숙하더라도 어떻게 저 인터페이스들이 유용한 메소드 확장들에 의해 확장됐는지 주시해야 한다.
 
 ### Predicates
-Predicates 는 단일 아규먼트를 받는 boolean(값) 함수이다. 이 인터페이스는 복합적 논리단어(and,or,negate)의 구성을 위한 다양한 default 메소드들 가지고 있다. 
+Predicates 는 단일 아규먼트를 받는 boolean(값) 함수이다. 이 인터페이스는 복합적 논리단어(and,or,negate)의 구성을 위한 다양한 default 메소드들을 가지고 있다. 
 
 ``` java
 Predicate<String> predicate = (s) -> s.length() > 0;
@@ -308,7 +308,7 @@ greeter.accept(new Person("Luke", "Skywalker"));
 ```
 
 ### Comparators
-Comparators 는 자바의 이전버전때 부터 잘 알려져왔다. Java 8 은 당얀한 default methods 들을 인터페이스에 추가했다. 
+Comparators 는 자바의 이전버전때 부터 잘 알려져왔다. Java 8 은 다양한 default methods 들을 인터페이스에 추가했다. 
 ``` java
 Comparator<Person> comparator = (p1, p2) -> p1.firstName.compareTo(p2.firstName);
 
@@ -357,7 +357,7 @@ optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
 
 `java.util.Stream` 은 하나 혹은 그 이상의 연산(operations)이 수행될 수 있는 elements 들의 시퀀스로 represent 된다.
 
-Stream 연산(operation) 들은 intermediate operation 이거나 terminal operation 이다. terminal operations 들이 명확한 타입의 값을 리턴해주는 동안, intermediate operations 은 steam 그 자신을 리턴하므로, 한줄로 멀티 메소드호출을 짤 수 있다.  
+Stream 연산(operation) 들은 intermediate operation 이거나 terminal operation 이다. terminal operations 들이 명확한 타입의 값을 리턴해주는 반면, intermediate operations 은 steam 그 자신을 리턴하므로, 한줄로 멀티 메소드호출을 짤 수 있다.  
 
 Streams 는 소스로 생성된다. 예로 `java.util.Collection` 은 list 나 set 나 마찬가지다.(맵은 지원하지 않는다) Steam 연산은 시퀀셜하게 실행되거나 병렬적으로 실행될 수 있다. 
 
