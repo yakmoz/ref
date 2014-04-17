@@ -532,7 +532,7 @@ System.out.println(String.format("parallel sort took: %d ms", millis));
 
 ## Map
 
-map은 stream 을 지원하지 않는다고 앞에서 언급했다. 이런일 처리를 위해 map 대신 이제 다양한 새롭고 유용한 방법(methods)들을 제공한다.
+map은 stream 을 지원하지 않는다고 앞에서 언급했다. 이런일 처리를 위해 map 대신 이제 다양한 새롭고 유용한 methods 들을 제공한다.
 
 ``` java
 Map<Integer, String> map = new HashMap<>();
