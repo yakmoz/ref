@@ -359,9 +359,9 @@ optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
 
 Stream 연산(operation) 들은 intermediate operation 이거나 terminal operation 이다. terminal operations 들이 명확한 타입의 값을 리턴해주는 반면, intermediate operations 은 steam 그 자신을 리턴하므로, 한줄로 멀티 메소드호출을 짤 수 있다.  
 
-Streams 는 소스로 생성된다. 예로 `java.util.Collection` 은 list 나 set 나 마찬가지다.(맵은 지원하지 않는다) Steam 연산은 시퀀셜하게 실행되거나 병렬적으로 실행될 수 있다. 
+Streams 는 소스, 예로 `java.util.Collection` 같은 list 난 sets(맵은 지원하지 않는다)같은 것에 의해 생성된다. Steam 연산은 시퀀셜하게 실행되거나 병렬적으로 실행될 수 있다. 
 
-시퀀셜 스트림이 동작하는 형태를 처음으로 살펴보자. 문자열의 리스트로 예제소스를 생성하자.
+시퀀셜 스트림이 동작하는 형태를 처음으로 살펴보자. 문자열의 리스트 형태의 예제소스를 생성하자.
 
 ``` java
 List<String> stringCollection = new ArrayList<>();
@@ -378,8 +378,9 @@ stringCollection.add("ddd1");
 Java 8 에서는 `Collection.stream()` 나 `Collection.parallelStream()` 를 호출함으로써 쉽게 streams 를 생성할 수 있도록 확장되었다. 다음에 나올 섹션에서는 가장 흔한 stream 연산을 설명한다.
 
 ### Filter
-Filter 는 stream의 모든 elements 들을 거르기위해 단적짓는것을(predicate)하는것을 수용한다. 이 연산은 결과의 또다른 stream 연산(e.g foreach)을 호출할수 있도록 해주는 intermediate 이다.(역주. 중간자?)
-ForEach 는 필터된 stream 에서 각각의 element 를 위해 소비자가 수행되도록 수락한다. ForEach 는 terminal operation 이다. 이것은 `void` 이므로 또다른 stream operation 을 호출할 수 없다.
+Filter 는 스트림의 모든 요소들을 필터링 하는것을 처리한다. 이 기능은 결과에서의 또다른 stream 연산(e.g foreach)을 호출할수 있도록 해주는 intermediate 이다.(역주. 중간자?) ForEach 는 필터링된 스트림의 원소 각각를 처리하게 해준다.
+
+ForEach 는 terminal operation 이다. 이것은 `void` 이므로 또다른 stream operation 을 호출할 수 없다.
 
 ``` java
 stringCollection
@@ -477,7 +478,9 @@ reduced.ifPresent(System.out::println);
 
 ## Parallel Streams
 
-위에서 언급한 streams 는 시퀀셜하거나 패러럴(병렬)이 될 수 있다. 시퀀셜 streams 에서의 연산은 병렬 streams 에서의 연산이 멀티스레드에서 동시에 수행되는 동안 싱글스레드에서 수행된다. 
+위에서 언급한 streams 는 시퀀셜하거나 패러럴(병렬)이 될 수 있다. 
+
+시퀀셜 스트림의 연산은 싱글 스레드에서 처리되는 반면 패러럴 스트림에서의 연산은 멀티플 스레드에서 동시에 처리된다.
 
 다음에 나오는 예제는 병렬 streams 를 이용해서 성능을 올리는게 얼마나 쉬운지 보여주고 있다.
 
