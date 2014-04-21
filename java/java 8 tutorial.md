@@ -1,6 +1,6 @@
 # Java 8 Tutorial (KOREAN)
 
-아래의 모든 내용은 [Java 8 Tutorial](http://winterbe.com/posts/2014/03/16/java-8-tutorial/) 의 내용을 바탕으로 한다.  
+아래의 모든 내용은 [Benjamin](http://winterbe.com) 님의 [Java 8 Tutorial](http://winterbe.com/posts/2014/03/16/java-8-tutorial/) 의 내용을 바탕으로 한다.  
 
 목표는 빠른 파악의 레벨이므로 원문에 있는 나름 심오한 내용등은 빠질 수 있다. 그건 원문을 보고 따로 학습하길 바란다. 작업은 2014년 4월 9일 12시부터 시작한다.(이때부터 원문을 읽고 있다)
 
