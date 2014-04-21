@@ -6,11 +6,8 @@
 
 이 사이트를 알려준 장진우님께 감사드린다.
 
-    안그래도 영어가 별루인데 중간중간 졸면서 옮긴게 있어서 ... 아무튼 오역이 있다면 죄송합니다 -ㅅ-;
-    그리고 아무래도 잘 모르는 내용들이다보니 번역하기가 어려워서 원문을 적어놓느것도 있습니다.
-    흐음... 지금 당장봐도 오역이 있는것 같군요. 휴... 시간이 걸리겠지만 업데이트해보도록 하겠습니다.
-    완성도가 올라가기 전까지는 참고용으로만 쓰시기 바랍니다. 
-    method 에 대한 번역 오류는 빠른시간에 에 정정하겠습니다. 
+   영어실력이 잼병이라 원문과 함께 참고하며 읽어나가시기 바랍니다. 그리고 오역있으면 알려주세요. 바로 적용해드리겠습니다. 감사합니다. 
+
 
 ## 번역참고사항
 
@@ -786,7 +783,7 @@ System.out.println(hints2.length);          // 2
 
 Java 8 에 대한 나의 프로그래밍 가이드는 여기서 끝이다. JDK 8 API의 새로운 클래스들이나 특징들에 대해서 좀더 알고 싶다면 [다음의 글](http://winterbe.com/posts/2014/03/29/jdk8-api-explorer/)을 읽어라.  몇개 언급하자면 `Arrays.parallelSort`, `StampedLock` 그리고  `CompletableFuture` 같은 JDK 8 의 새로운 클래스들이나 숨겨진 보물들일 찾는데 도움을 줄 것이다. 
 
-나는 최근에 [JAVA 8 Nashorn Tutorial](http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/) 를 출간했다. Nashorn Javascript Engine 은 JVM 에서 자바스크립트 코드를 네이트브하게 실행 할 수 있게 해준다.
+나는 최근에 [JAVA 8 Nashorn Tutorial](http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/) 를 작성했다. Nashorn Javascript Engine 은 JVM 에서 자바스크립트 코드를 네이트브하게 실행 할 수 있게 해준다.
 
 나는 이 가이드가 당신에게 도움이됐고 즐겁게 읽었기를 바란다. 튜토리어 샘플들의 풀 코드는 [GitHub](https://github.com/winterbe/java8-tutorial) 에 있다. [저장소를 포크](https://github.com/winterbe/java8-tutorial/fork) 하고 싶거나 피드백을 주고 싶다면 [트위터](https://twitter.com/benontherun) 를통해서 연락주면 된다.
 
