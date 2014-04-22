@@ -30,9 +30,10 @@ mod_jk 컴파일을 위해
 XcodeDefault.xctoolchain 디렉토리가 있다. 즉 mod_jk 를 위한 컴파일러의 위치가 OSX10.9.xctoolchain/ 가 아니라 XcodeDefault.xctoolchain 인 것이다. 해서 소프트링크를 만들자. 
 
 5. /Applications/Xcode.app/Contents/Developer/Toolchains 로 이동해서
-``` bash
-sudo ln -s ./XcodeDefault.xctoolchain/ ./OSX10.9.xctoolchain
-```
+
+    ``` bash
+    sudo ln -s ./XcodeDefault.xctoolchain/ ./OSX10.9.xctoolchain
+    ```
 
 6. 다시 configure 해보면 성공할 것이다.
     `make` 실행
