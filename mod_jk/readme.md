@@ -14,11 +14,13 @@ mod_jk 컴파일을 위해
 1. [http://tomcat.apache.org/download-connectors.cgi](http://tomcat.apache.org/download-connectors.cgi) 에 가서 mod_jk 소스를 다운로드 받는다. 다운로드 받아서 푼 다운 그 디렉토리의 native 로 들어간다. 
 
 2. configure
-``` bash
-./configure --with-apxs=/usr/sbin/apx
-```
-하면 컴파일 실패가 나는데
-checking for C compiler default output file name... configure: error: C compiler cannot create executables
+
+    ``` bash
+    ./configure --with-apxs=/usr/sbin/apx
+    ```
+
+    하면 컴파일 실패가 나는데
+    checking for C compiler default output file name... configure: error: C compiler cannot create executables
 
 3. 본인은 이런 에러가 나왔다. 바로 윗줄을 보면 
 /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain/usr/bin/cc
