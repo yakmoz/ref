@@ -17,7 +17,7 @@ mod_jk 컴파일을 위해
 ``` bash
 ./configure --with-apxs=/usr/sbin/apx
 ```
-하면 컴파일 실패가 나는데 
+하면 컴파일 실패가 나는데
 checking for C compiler default output file name... configure: error: C compiler cannot create executables
 
 3. 본인은 이런 에러가 나왔다. 바로 윗줄을 보면 
