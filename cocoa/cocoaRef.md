@@ -21,6 +21,7 @@
     - 카테고리
 - CORE DATA
     - 엔티티 생성
+- Cocoa Framework
 - 언어비교
 - 메모리
     - 자원 관리되는 형태
@@ -643,7 +644,7 @@ NSMutableDictionary 에 같은 키로 새로 값을 넣으면 이전 값을 rele
 
 우리가 일반적으로 말하는 클래스는 엔티티 라고 얘기될 것인데, 이는 그냥 멤버필드와 타입을 흡사, 테이블을 UI 기반으로 쉽게 만들때의 그것처럼 만들 수 있다. 즉 데이타(베이스 like?)기반 어플을 만들겠다면 유용하다.
 
-핵심중 하나는 NSPersistentDocument 인데, 이는 모델을 자동으로 읽ㅇ와서 NSManagedObjecContext 를 생성한다. NSPersistentDocument는 기존에 필요했던 많은 양의 코드를 제거하게 해준다.
+핵심중 하나는 NSPersistentDocument 인데, 이는 모델을 자동으로 읽어와서 NSManagedObjecContext 를 생성한다. NSPersistentDocument는 기존에 필요했던 많은 양의 코드를 제거하게 해준다.
 
 프로젝트를 생성하는데 이때 create document-based application 을 선택하고 use core data 도 체크한다.
 
@@ -651,6 +652,13 @@ NSMutableDictionary 에 같은 키로 새로 값을 넣으면 이전 값을 rele
 프로젝트를 생성해서 파일중 xcdatamodel 확장자를 가진 파일을 열어서 `Add Entity` 를 통해서 엔티티를 추가할 수 있다. (클래스라고 생각하라)
 
 엔티티를 생성하고 Properties 테이블 뷰 아래에 있는 팝업에서 `Add attribure` 를 통해 속성을 추가한다. 이때 이름과 유형을 정의 해야한다.
+
+# Cocoa Framework
+
+- Foundation framework
+    + 몇몇은 NeXTStep 때부터 내려옴 , 예로 NSString 
+- AppKit framework
+- Core Data framework
 
 
 
