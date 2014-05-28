@@ -68,6 +68,19 @@ info.plist 는 키-밸류의 쌍 딕셔너리로 된 xml 파일이다.
 ### UI 파일은 XIB 파일
 zib 발음
 
+### UI 단축키
+유틸리티영역은 opt+cmd+0 으로 접었다 펼 수 있다.
+그리고 유틸리티 영역안에 있는 각 팬의 단축키는...
+
+- opt+cmd+1 : File Inspector
+- opt+cmd+2 : Quick Help Inspector
+- opt+cmd+3 : Identity Inspector
+- opt+cmd+4 : Atribute Inspector
+- opt+cmd+5 : Size Inspector
+- opt+cmd+6 : Connections Inspector
+- opt+cmd+7 : Bindings Inspector
+- opt+cmd+8 : View Effects Inspector
+
 ### xib vs nib
 xib 는 사용자가 달루고, nib 는 컴파일된 파일로 애플리케이션에서 쓴다.
 
@@ -90,11 +103,11 @@ NSTextField 는 stringValue 로 값을 가져올 수 있네??
 위에서 부터 아래로 서브들이다. 
 
 - NSObject(객체임. retain,release,dealloc,init) 
-	- NSResponder(이벤트제어. mouseDown:,keyDown: etc...)
-		- NSView (윈도에 나타남. drawRect:, window etc...)
-			- NSControl (타킷과 액션..., setTarget:, setAction etc...)
-				- NSButton, NSTextField, NSSlider ... etc 
-				
+    - NSResponder(이벤트제어. mouseDown:,keyDown: etc...)
+        - NSView (윈도에 나타남. drawRect:, window etc...)
+            - NSControl (타킷과 액션..., setTarget:, setAction etc...)
+                - NSButton, NSTextField, NSSlider ... etc 
+                
 ### 버튼의 액션을 실시간으로 바꿀 수 있다?
 가능한것으로 보인다. setAction 이 가능하다. 현재 버튼에 걸린 셀렉터 도 조회가능하다.
 
@@ -198,7 +211,7 @@ xib 파일을 열면 UI 가 보여진다. 이때 그 화면안에 왼쪽 아래�
 # 문자
 ### 문자열  
 Objective-C는 `@"..."`을 이용해 7비트 ASCII 인코딩에서 문자열 객체를 간편하게 생성할수 있다.
-	
+    
 ```objectivec 
 NSString *temp = @"this is a constant string";
 ```
@@ -232,9 +245,9 @@ BOOL c = [s1 isEqualToString: s2];
 
 
 ### 문자열 추출
-subStringToIndex:4		? 처음부터 4문자 추출
-subStrinfFromIndex:10	? 11번째 부터 마지막까지 
-subStringWithRange:NSMakeRange(5,4)	? 
+subStringToIndex:4      ? 처음부터 4문자 추출
+subStrinfFromIndex:10   ? 11번째 부터 마지막까지 
+subStringWithRange:NSMakeRange(5,4) ? 
 
 ### sprintf 가 존재한다.
 NSString 의 initWithFormat 이 바로 그것이다.
@@ -245,7 +258,7 @@ NSString* cntStr = [[NSString alloc] initWithFormat:@"%d",cnt];
 //위보다는
 NSString *text = [NSString stringWithFormat:@"'%@' has %d characters.",string,[string length]];
 ```
-	
+    
 ### 배열?
 ``` objectivec
 // 사실상 하나짜리 배열
@@ -254,7 +267,7 @@ NSArry *arr = [NSArray arrayWithObject:@"ABC"];
 // n 개... 끝을 반드시 nil 로 직접 지정해야하는건가?
 NSArry *arr = [NSArray arrayWithObject:@"ABC",@"DEF",@"GHI",nil];
 ```
-	
+    
 # 할당, 선언 및 호출
 
 ### 클래스 with 변수
@@ -269,18 +282,18 @@ NSArry *arr = [NSArray arrayWithObject:@"ABC",@"DEF",@"GHI",nil];
 기본적으로 공간을 만들고, 객체를 만든뒤, 초기화해서 쓴다.
 ``` objectivec
 NSString *str; // obj-c 에서는 객체는 무조건 포인터 선언
-str = [NSString alloc];	// 객체생성
-str = [str init];		// 초기화 
+str = [NSString alloc]; // 객체생성
+str = [str init];       // 초기화 
 
 // 위의 3가지 과정을 보통 한꺼번에
 NSString *str2 = [[NSString alloc] init];
 ```
-	
+    
 그냥 init 이 아니라 initWith... 등으로 된 것을 지정초기화 라고 하네?
 자바로 치면 기본생성자외의 생성자이다. 
 ``` objectivec
 self = [super init]; // 지정생성자 안에서 기본생성자를 호출해야 한다. 
-if(self) {....}		// 그리고 이 짓을 보통 하더라. 제대로 초기화 됐는지 확인한다.
+if(self) {....}     // 그리고 이 짓을 보통 하더라. 제대로 초기화 됐는지 확인한다.
 ```
 
 
@@ -297,7 +310,7 @@ objective-c 를 공부해보면 알겠지만 변수에 대해 setXxx 하지만 g
 ex) 
 @property (readwrite,weak) int num;
 ```
-	
+    
 속성에는 여러가지 값이 있으니 찾아보기바란다. 필요 없으면 생략 가능하다.
 
 - assign : 기본값임. 단순히 대입만한다. 보통 정수형,실수형같은 스칼라형에만 사용함. (포인터형 아닌)
@@ -317,7 +330,7 @@ ex)
 
 자동이 아니면 속성부분에 getter / setter 로 메소드명 지정이 가능하다만...
 전에 언급했지만 getter 의 경우 실제 이름은 ...getter 로 하지말고 그냥 그 메소드 이름으로 getter 를 만들라. 
-	
+    
 변수에 접근하는 방법은 `.` 을 사용한다. 위의 경우 `@synthesize num` 을 했으므로, `.num` 접근 가능하다. 물론 `@property` , `@synthesize` 등으로 추가된  대상의 경우이다. 
 
 **주의할점은 id 형의 경우는 `.` 참조가 안됨.**
@@ -329,10 +342,10 @@ ex)
 ### 카테고리
 클래스명을 동일하게 하고 인터페이스부에 `()`로 안에 카테고리 명을 넣어서 구분하게 된다.
 
-	
+    
 ### 클래스확장?
 () 안에 카테고리를 지정하지 않는 방법이다. 클래스 확장을 하면 안팎에서 프로퍼티의 속성을 바꿀 수 있다. 
-	
+    
 
 ### .h 파일의 역할은? 
 인스턴스 변수와 메서드들이 추가된다?
@@ -360,7 +373,7 @@ public void increment(Object sender)
     textField.setIntValue(count);
 }
 ```
-		
+        
 이걸 objective-c 로 구현하면?
 ``` objectivec
 - (void)increment:(id)sender 
@@ -383,17 +396,17 @@ obj-c 는 정의한 메소드를 직접 호출하여 실행하는것이 아니�
 ### 메소드에 +, - ??
 - `-` : 인스턴스에서 사용되는 메소드
 - `+` : 클래스에서 사용되는 메소드. 즉 인스턴스가 아니라 그 클래스와 연관된다. 보통 static 으로 클래스필드임을 암시해준다. 해서 인스턴스 생성없이 호출 가능하다. 즉 자바의 static 이라고 생각해도 된다. 
-	
+    
 ### 메소드 선언 
 
-	// 리턴타입은 void , int 등... 원하는 리턴타입이 적히면 된다. 
-	-(리턴타입) 메소드명:(인수타입) 인수이름;   	
+    // 리턴타입은 void , int 등... 원하는 리턴타입이 적히면 된다. 
+    -(리턴타입) 메소드명:(인수타입) 인수이름;       
 
-	// 여러개이면?
-	-(리턴타입) 메소드명:(인수타입) 인수이름 라벨명:(인수타입) 인수이름;
+    // 여러개이면?
+    -(리턴타입) 메소드명:(인수타입) 인수이름 라벨명:(인수타입) 인수이름;
 
 라벨명이란? 거기에 값을 적용해주기위해 호출할때 그 라벨명을 쓰게 된다. `:라벨명` 
-	
+    
 ### 메소드 호출은 [  ]
 바로 위에 예제도 있지만 `textField.setlntValue(count);` 를 
 
@@ -405,7 +418,7 @@ objective-C 로 바꾸면 `[textField setIntValue:count]` 이다.
 // test 는 인수값, encoding 은 라벨: 뒤의 값은 인수값
 NSString *str = [NSString stringWithString:test encoding:NSUTF8StringEncoding];
 ```
-	
+    
 #### <u>**인수의 수와 메서드명의 ':' 의 수는 같개 된다네.**</u>
 
 
@@ -426,7 +439,7 @@ NSString *str = [NSString stringWithString:test encoding:NSUTF8StringEncoding];
 -(IBAction)generate:(id)sender; 
 @end
 ```
-	
+    
 이와 같이 선언하고  .m 에서
 
 ``` objectivec
@@ -493,9 +506,9 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 프로토콜을 정의하려면 @protocol 과 @end 사이에 메소드나 프로퍼티를 기술한다. 인터페이스와 같다.(= 형식프로토콜 이라 함)
 ``` objectivec
 @protocol FruitsInfo
-@required 		// 이 이후에 있는 메소드등을 처리할 필요가 있음 
+@required       // 이 이후에 있는 메소드등을 처리할 필요가 있음 
 -(void) showBrand;
-@optional		// 이 이후의 메소드는 반드시 처리할 대상은 아님 
+@optional       // 이 이후의 메소드는 반드시 처리할 대상은 아님 
 -(void) showCalorie;
 @end  
 ```
@@ -524,10 +537,10 @@ if(self) 라고 쓰는 것은 if ( self != nil ) 와 동일하다. 부모 클래
 
 시작과 끝 두번호출하면되며,
 ``` objectivec
-[self willChangeValueForKey:@"fido"];	// noti start
+[self willChangeValueForKey:@"fido"];   // noti start
 fido++;
 NSLog(@"fido is now %d", fido);
-[self didChangeValueForKey:@"fido");	// noti end
+[self didChangeValueForKey:@"fido");    // noti end
 ```
 
 실행중인 어플리케이션에는 모두 NSNotificationCenter 의 인스턴스가 있단다. 특정 내용에(notification) 관심이 있다고 등록함 등록객체를 옵저버라고 함. 다른 객체들이 노티피케이션 센터에 노티페케이션을 알림. 그러면 관심있다고 등록한 객체에 해당 내용을 전달함.
@@ -562,22 +575,22 @@ NSNotificationCenter는 명령을 내 리는 두뇌와 같다. NSNotificationCen
 ``` objectivec
 -(id)init
 {
-	self = [super init]; 
-	if (self) {
-		employees = [[NSMutableArray alloc] init];
-		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		[nc addObserver:self 
-			selector:@selector(handleColorChange:)
-			name:BNRColorChangedNotification 
-			object: nil] ;
-		NSLog(@"Registered with notification center") ; 
-	}
-	return self;
+    self = [super init]; 
+    if (self) {
+        employees = [[NSMutableArray alloc] init];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self 
+            selector:@selector(handleColorChange:)
+            name:BNRColorChangedNotification 
+            object: nil] ;
+        NSLog(@"Registered with notification center") ; 
+    }
+    return self;
 }
 
 // 아래는 삭제 
 (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 ```
 
@@ -803,7 +816,7 @@ NSString *str2 = [NSString stringWithString: @"string managed by the pool"];
 // 직접 메모리에 할당해서 만든 함수 
 NSString *str3 = [[NSString alloc] initWithString: @"self managed string"];
 ```
-	
+    
 **alloc 으로 직접 할당한 메모리는 역시 직접 해제해야 한다.**
 
 ### 메모리 관리 형태 설정위치
@@ -901,13 +914,13 @@ C++ 의 STL 과 유사하단다. 자료구조,네트워킹,스레드등 여러�
 주의할점은 `키:값` 이 아니라 `값:키` 이다. 
 중요하다고 생각하는 Dictionary 만 기록해놨다. 나머지는 직접 책에서 봐라. 
 ``` objectivec
-NSDictionary *dic;		
-dic  = [NSDictionary dictionaryWithObjectsAndKeys:@"apple"	,@"A"
-                                                , @"banana"	,@"B"
+NSDictionary *dic;      
+dic  = [NSDictionary dictionaryWithObjectsAndKeys:@"apple"  ,@"A"
+                                                , @"banana" ,@"B"
                                                 , @"cherry" ,@"C"
                                                 , nil];
 // 찾을때
-NSString *str = [dic objectForKey:@"B"];	
+NSString *str = [dic objectForKey:@"B"];    
 
 // 넣을때 
 [dic setObject:@"ABCDEFG" forKey:@"A"];
@@ -916,17 +929,17 @@ NSString *str = [dic objectForKey:@"B"];
 ### 래퍼클래스
 
 - NSNumber
-	``` objectivec
+    ``` objectivec
     NSNumber *num;
     int n = 123; 
     num = [NSNumber numberWithInt:nJ;
     float f =[num floatValue];
     ```
-		
+        
 - NSValue 
-	NSNumber 클래스의 부모 클래스로 구조체도 저장할 수 있다. 
-	
-	
+    NSNumber 클래스의 부모 클래스로 구조체도 저장할 수 있다. 
+    
+    
 # undo...
 이거 ... 생각보다 복잡하네 (이해만 하면 되는 내용인것 같긴한데, 뭔가 서로 맵핑하고 물리는게 많다)
 
