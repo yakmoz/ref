@@ -1,6 +1,10 @@
 # Swift (apple)
 
-###간단한 values
+
+## A Swift Tour
+
+
+### 간단한 values
 
 상수는 let 으로, 변수는 var 를 이용해 생성한다.
 
@@ -68,6 +72,9 @@ if let name = optionalName {
 let 은 
 
 
+### Functions and Closures
+
+
 ### Objects and classes
 
 
@@ -90,6 +97,9 @@ counter.incrementBy(2, numberOfTimes: 7)
 
 > subscripts? 컬렉션, 리스트나 시퀀스의 멤버원소에 접근하기위한 shortcuts
 
+
+### Enumerations and Structures
+열거형을 만들기 위해서는 enum 을 생성한다. 클래스나 모든 다른 타입 열거형은 메소드와 함께 조합할 수 있다.
 
 
 
