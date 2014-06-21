@@ -67,3 +67,35 @@ if let name = optionalName {
 만약 optional 값이 nul 이라면 조건은 false 가 되고 코드를 뛰어넘게 된다.(skip) true 라면 optional 값은 꺼내져 let 뒤의 상수에 할당된다. 
 let 은 
 
+
+### Objects and classes
+
+
+#### second name 
+기본적으로는 메소드의 파라미터들은 호출할때나 메소드 내부에서 같은 이름을 가진다. 내부에서 사용할때는 두번째 이름을 정의할 수 도 있다. 
+
+아래의 `times` 가 바로 second name , 즉 또다른 두번째 이름이다. 
+``` 
+class Counter {
+    var count: Int = 0
+    func incrementBy(amount: Int, numberOfTimes times: Int) {
+        count += amount * times
+    }
+}
+var counter = Counter()
+counter.incrementBy(2, numberOfTimes: 7)
+```
+
+클래스의 메소드나 프로퍼티,subscripting 등의 옵셔널값을 줄때는 ? 를 쓸 수 있다.
+
+> subscripts? 컬렉션, 리스트나 시퀀스의 멤버원소에 접근하기위한 shortcuts
+
+
+
+
+
+
+
+
+
+
