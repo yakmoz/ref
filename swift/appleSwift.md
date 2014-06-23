@@ -101,6 +101,44 @@ counter.incrementBy(2, numberOfTimes: 7)
 ### Enumerations and Structures
 열거형을 만들기 위해서는 enum 을 생성한다. 클래스나 모든 다른 타입 열거형은 메소드와 함께 조합할 수 있다.
 
+```
+// 이거 열거형이다. case 로 선언된 순서대로 1,2,3,4... 가 매겨진다. 해서 Ace가 1 이고 다음 순서대로 번호를 대입하므로 ten 은 10이 된다. 
+enum Rank: Int {
+    case Ace = 1
+    case Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten
+    case Jack,Queen, King
+    func simpleDescription() -> String {
+        switch self {
+        case .Ace:
+            return "ace"
+        case .Jack:
+            return "jack"
+        case .Queen:
+            return "queen"
+        case .King:
+            return "king"
+        default:
+            return String(self.toRaw())
+        }
+    }
+}
+
+let ace = Rank.Ace
+let aceRawValue = ace.toRaw()
+
+let two = Rank.Two
+let twoRawValue = two.toRaw()
+
+let nine = Rank.Nine
+let nineRawValue = nine.toRaw()
+
+let queen = Rank.Queen
+queen.toRaw()
+queen.simpleDescription()
+
+two.simpleDescription()
+```
+
 
 
 
