@@ -102,7 +102,7 @@ counter.incrementBy(2, numberOfTimes: 7)
 열거형을 만들기 위해서는 enum 을 생성한다. 클래스나 모든 다른 타입 열거형은 메소드와 함께 조합할 수 있다.
 
 ```
-// 이거 열거형이다. case 로 선언된 순서대로 1,2,3,4... 가 매겨진다. 해서 Ace가 1 이고 다음 순서대로 번호를 대입하므로 ten 은 10이 된다. 
+// 이거 열거형이다. case 로 선언된 순서대로 1,2,3,4... 가 매겨진다. 해서 Ace가 1 이고 다음 순서대로 번호를 대입하므로 ten 은 10이 된다. 첫번째 값만 정의하면 된다. 
 enum Rank: Int {
     case Ace = 1
     case Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten
@@ -138,6 +138,67 @@ queen.simpleDescription()
 
 two.simpleDescription()
 ```
+toRaw , fromRaw 함수로 서로간의 컨버팅이 가능하다. 
+
+```
+// raw type 없이 선언한 경우. 해서 toRaw 등은 안된다.
+enum Suit {
+    case Spades, Hearts, Diamonds, Clubs
+    func simpleDescription() -> String {
+        switch self {
+        case .Spades:
+            return "spades"
+        case .Hearts:
+            return "hearts"
+        case .Diamonds:
+            return "diamonds"
+        case .Clubs:
+            return "clubs"
+        }
+    }
+}
+```
+
+#### struct / class
+struct 은 코드로값을 복제해서넘겨주고, class 는 참조로 넘겨준다.
+
+```
+struct Card {
+    var rank:Rank
+    var suit:Suit
+    
+    func simpleDescription() -> String {
+        return "the \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    }
+}
+
+let threeOfSpades = Card(rank: .Three, suit: .Spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+```
+
+열거형 멤버의 인스턴스는 인스턴스와 연결된 값을 가질 수 있다. 같은 열거형 멤버의 인스턴스는 다른 값으로 연결될 수 있다. 인스턴스를 생성할때 연결된 값을 준다. 열거형 멤버의 생(raw)은 모든 자신의 인스턴와 같고, 열거형을 정의할때 생(raw) 값을 제공해야 한다.
+
+예제로 일출과 일볼 시간을 요청받는 서버를 고려해보자. 서버는 정보를 응답하거나, 몇몇 에러정보를 응답한다.
+
+```
+enum ServerResponse {
+    case Result(String,String)
+    case Error(String)
+}
+
+let success = ServerResponse.Result("6:00 am","8:09 pm")
+let failure = ServerResponse.Error("Out of cheese.")
+
+switch success {
+case let .Result(sunrise, sunset):
+    let serverResponse = "Sunrise is at \(sunrise) and sunset is at \(sunset)."
+    
+case let .Error(error):
+    let serverResponse = "Failure... \(error)"
+    
+}
+```
+### Protocols and Extensiions
 
 
 
