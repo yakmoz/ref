@@ -26,9 +26,10 @@ println(canBeNil!)
 
 이것도 가능하다.
 
-```
+``` swift
 let optionalSquare : Square? = Square(sideLength: 2.5,name: "optional square")
 let sideLength = optionalSquare!.sideLength
+```
 
 자동으로 unwrap 하기위해서 ? 대신 ! 마크를 이용해서 옵셔널을 선언할 수 도 있다.
 
