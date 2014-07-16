@@ -160,7 +160,7 @@ $ bundle install --without development test
 
 앞에서 우리가 ruby gem 을 설치할때 한가지 재밌는걸 봤다.
 
-``` bash
+``` ruby
 bundle install --without development test
 Fetching gem metadata from https://rubygems.org/.........
 Fetching additional metadata from https://rubygems.org/..
