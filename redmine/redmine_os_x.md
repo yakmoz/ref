@@ -48,6 +48,61 @@ homebrew 의 설치가이드는 생략한다. 검색하면 정말 너무 너무 
 ``` bash
 $ brew install mariadb 
 ```
+그리고 DB 를 시작하자.
+
+``` bash 
+$ mysql.server start
+```
+
+DB 를 여기서는 그냥 커맨드로 기동시켰지만, os x 구동시 자동으로 시작할 수 있다.
+방법을 보고 싶으면 brew info mariadb 를 통해서 확인가능하다. 마지막줄에 보면 로그인시에 시작하기 위해 설정하는 방법(정확히는 링크생성) 이 나와있다.  
+
+``` bash
+
+mbtest:~ yakmoz$ brew info mariadb
+mariadb: stable 10.0.12 (bottled)
+http://mariadb.org/
+Conflicts with: mysql, mysql-cluster, mysql-connector-c, percona-server
+/usr/local/Cellar/mariadb/10.0.10 (524 files, 125M) *
+  Built from source
+From: https://github.com/Homebrew/homebrew/blob/master/Library/Formula/mariadb.rb
+==> Dependencies
+Build: cmake ✔
+==> Options
+--enable-local-infile
+	Build with local infile loading support
+--universal
+	Build a universal binary
+--with-archive-storage-engine
+	Compile with the ARCHIVE storage engine enabled
+--with-bench
+	Keep benchmark app when installing
+--with-blackhole-storage-engine
+	Compile with the BLACKHOLE storage engine enabled
+--with-embedded
+	Build the embedded server
+--with-libedit
+	Compile with editline wrapper instead of readline
+--with-tests
+	Keep test when installing
+==> Caveats
+A "/etc/my.cnf" from another install may interfere with a Homebrew-built
+server starting up correctly.
+
+To connect:
+    mysql -uroot
+
+To have launchd start mariadb at login:
+    ln -sfv /usr/local/opt/mariadb/*.plist ~/Library/LaunchAgents
+Then to load mariadb now:
+    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mariadb.plist
+Or, if you don't want/need launchctl, you can just run:
+    mysql.server start
+
+
+
+```
+
 
 설치가 되고 나면 가이드에서 나온대로 해보자
 
@@ -64,11 +119,6 @@ GRANT ALL PRIVILEGES ON redmine.* TO 'redmine'@'localhost';
 
 당연한 얘기지만 제대로 할때는 위의 패스워드등은 알아서 변경하도록 한다.
 
-그리고 DB 를 시작하자.
-
-``` bash 
-$ mysql.server start
-```
 
 
 ## DB 접속설정
@@ -111,6 +161,8 @@ $ bundle install --without development test
 자 여기서 에러를 보일 것이다. 아니라면 그냥 넘어가면 된다.
 본인의 경우는
 
+> Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
+
 ``` bash
 Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
 
@@ -130,6 +182,14 @@ Can't install RMagick 2.13.2. Can't find Magick-config in /usr/bin:/bin:/usr/sbi
 
 우선 magick ,pkgconfig 를  brew 로 설치하자.
 그리고 마지막에 MagickWand.h 해더위치를 C_INCLUDE_PATH 를 통해서 알려주고 install 하면된다. 
+
+사실 MagicWand.h 헤더의 위치를 아래의 imagemagick 설치를 통해서 짐작하고 설정할 수도 있으나 mdfind 를 통해서 해당 파일의 위치를 직접 확인해보는것도 좋다. 
+
+``` bash
+$ mdfind MagicWand.h 
+```
+
+아무튼 진행해보자. 
 
 ``` bash
 $ brew install imagemagick
