@@ -111,8 +111,6 @@ $ bundle install --without development test
 자 여기서 에러를 보일 것이다. 아니라면 그냥 넘어가면 된다.
 본인의 경우는
 
-> Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
-
 ``` bash
 Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
 
