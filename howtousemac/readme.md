@@ -28,7 +28,7 @@ alfred
 
 news notification
 
-trackpad 제스쳐
+trackpad 제스쳐 (ctrl + 위아래)
 
 바텐더
 
@@ -38,4 +38,6 @@ sqldeveloper
 java 설치...
 
 homebrew
+wunderlist
+
 
