@@ -40,4 +40,8 @@ java 설치...
 homebrew
 wunderlist
 
+wget
+태생에 대한 얘기... 어차피 리눅스나 유닉스나 같은놈임 
+
+한글 입력에 대한 얘기들 
 
