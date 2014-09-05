@@ -10,3 +10,23 @@
 
 
 ## 
+
+
+bettersnaptool
+snapit
+유료앱 구매방법 (app store / 개발사 홈페이지
+dragondrop
+yoink
+
+
+
+virtualbox
+parallels
+intellij
+
+alfred
+
+news notification
+
+trackpad 제스쳐
+
