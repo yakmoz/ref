@@ -31,3 +31,11 @@ news notification
 trackpad 제스쳐
 
 바텐더
+
+toad 
+sqldeveloper
+
+java 설치...
+
+homebrew
+
