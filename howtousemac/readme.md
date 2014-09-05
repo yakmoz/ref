@@ -30,3 +30,4 @@ news notification
 
 trackpad 제스쳐
 
+바텐더
