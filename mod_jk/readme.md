@@ -18,6 +18,10 @@ mod_jk 컴파일을 위해
     ``` bash
     ./configure --with-apxs=/usr/sbin/apx
     ```
+    or 
+    ``` bash
+    ./configure CFLAGS='-arch x86_64' APXSLDFLAGS='-arch x86_64' --with-apxs=/usr/sbin/apxs
+    ```
 
     하면 컴파일 실패가 나는데
     checking for C compiler default output file name... configure: error: C compiler cannot create executables
