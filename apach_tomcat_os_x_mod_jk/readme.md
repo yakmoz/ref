@@ -83,7 +83,7 @@ LoadModule jk_module libexec/apache2/mod_jk.so
 </IfModule>
 ```
 
-- 해당 설정을 보면 앞에서 언급한 JkWorkersFile 과 JkMountFile ,2가지 설정을 이용하는걸 알 수 있다. 그설정들에 정의된 파일, 2개를 수정할것이다. 아마 2개의 파일은 이미 존재하고 있을것이다. 
+- 해당 설정을 보면 앞에서 언급한 JkWorkersFile 과 JkMountFile ,2가지 설정을 이용하는걸 알 수 있다. 그설정들에 정의된 파일, 2개를 수정할것이다. 아마 2개의 파일은 이미 존재하고 있을것이다. 없으면 만들라. 별의미는 없다. 그 파일 내부에 설정된 내용을 쓰겠다는 의미일 뿐이다.
 
 우선 `workers.properties` 를 수정하다.worker1 이라고 선언하고 내용을 설정한다.
 
