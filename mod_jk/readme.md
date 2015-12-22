@@ -51,6 +51,6 @@ XcodeDefault.xctoolchain 디렉토리가 있다. 즉 mod_jk 를 위한 컴파일
 
 
 !!! 만약 설치시 
-`could not detect a 32-bit integer type`
+`could not detect a 32-bit integer type` 나 stdio.h 가 없다며 
 에러가 나오면 
 `xcode-select --install` 를 통한 추가 설치가 필요할 수 있다. 
