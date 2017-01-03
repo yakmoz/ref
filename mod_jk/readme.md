@@ -43,14 +43,32 @@ XcodeDefault.xctoolchain 디렉토리가 있다. 즉 mod_jk 를 위한 컴파일
 
     ``` bash
     sudo ln -s ./XcodeDefault.xctoolchain/ ./OSX10.10.xctoolchain
+    또는
+    sudo ln -s ./XcodeDefault.xctoolchain/ ./OSX10.11.xctoolchain
     ```
 
 6. 다시 configure 해보면 성공할 것이다.
     `make` 실행
-    `sudo make install` 실행 (sudo 의 이유는 /usr/libexec/apache2/ 에 설치되기 때문임 )
+    ~~sudo make install` 실행 (sudo 의 이유는 /usr/libexec/apache2/ 에 설치되기 때문임 )~~
+    Mac Os 특정버전부터 더이상 /usr/libexec/apache2 이하에 파일을 복사할수 없게 해놨다. 보안의 강화이긴한데 이게 sudo 도 안먹힌다.
+
+    사실 이미 거기 말고도 다른곳에 놔두고 참조하게 할 수 있는 방법이 있다. 본체를 건드리지 못하게 해놨다고 생각하면 편하다. 
+    make install 대신 컴파일한곳 (native) 이하 apache-2.0 디렉토리가 있다. 들어가면 mod_jk.so 파일이 있다. 이 파일을 /etc/apache2/other 에 복사해두면된다.
+
 
 
 !!! 만약 설치시 
 `could not detect a 32-bit integer type` 나 stdio.h 가 없다며 
 에러가 나오면 
 `xcode-select --install` 를 통한 추가 설치가 필요할 수 있다. 
+
+!!! 만약 설치시 `apr_lib.h` 파일을 찾지못한다고 나오면?
+해당 헤더파일의 위치를 직접 configure 할때 선언해야한다. find 로 찾아도 되는데 보통 /usr/include/apr-1 에 있을것이다. 아니면 찾아야한다. 
+
+``` bash
+./configure CFLAGS='-arch x86_64' APXSLDFLAGS='-arch x86_64' --with-apxs=/usr/sbin/apxs LDFLAGS='-L/usr/include/apr-1' CFLAGS='-I/usr/include/apr-1'
+``` 
+
+이후는 make 로 컴파일 하여 파일생성하면됨.(문제가 있다면 make clean 하고 make 바란다) 
+
+
