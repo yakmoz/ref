@@ -1,6 +1,6 @@
 
 # Mac OS (11 엘캐피탄) 에서의 아파치 톰캣 연동
-### 참 https://www.bartbusschots.ie/s/2009/05/05/installing-mod_jk-for-apache-22-on-mac-os-x-105-leopard/
+### 참고 https://www.bartbusschots.ie/s/2009/05/05/installing-mod_jk-for-apache-22-on-mac-os-x-105-leopard/
 
 원래 보통 작은 규모의 사이트들이나, 엔지니어 혹은 개발자들이 연습삼아 apache 를 앞단에 두고(80포트) 자바 웹 서비스는 WAS (여기서는 톰캣)로 보내는 형태를 만들어 이용했다. 
 
