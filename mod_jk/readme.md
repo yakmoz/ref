@@ -49,7 +49,9 @@ XcodeDefault.xctoolchain 디렉토리가 있다. 즉 mod_jk 를 위한 컴파일
 
 6. 다시 configure 해보면 성공할 것이다.
     `make` 실행
+    
     ~~sudo make install` 실행 (sudo 의 이유는 /usr/libexec/apache2/ 에 설치되기 때문임 )~~
+    
     Mac Os 특정버전부터 더이상 /usr/libexec/apache2 이하에 파일을 복사할수 없게 해놨다. 보안의 강화이긴한데 이게 sudo 도 안먹힌다.
 
     사실 이미 거기 말고도 다른곳에 놔두고 참조하게 할 수 있는 방법이 있다. 본체를 건드리지 못하게 해놨다고 생각하면 편하다. 
@@ -70,5 +72,6 @@ XcodeDefault.xctoolchain 디렉토리가 있다. 즉 mod_jk 를 위한 컴파일
 ``` 
 
 이후는 make 로 컴파일 하여 파일생성하면됨.(문제가 있다면 make clean 하고 make 바란다) 
+
 
 
