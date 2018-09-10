@@ -89,6 +89,7 @@ JkLogStampFormat “[%a %b %d %H:%M:%S %Y] ”
 # Send everything for context /example to worker named ajp13
 JkMount /example/* ajp13
 ```
+!!!! 잠깐.. 위에 JkMount 부분에서 원하는 path.. 즉 원하는 url 을 worker 쪽으로 보내야하므로 설정하기 바란다. 위의 example 은.. 샘플이다. /* 로 하면모든 request 를 ajp13 으로 보내는게 된다.
 
 ## 서버재시작
 톰캣을 기동하고, 아파치를 기동/재기동 할 것이다.
